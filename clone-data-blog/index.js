@@ -33,7 +33,10 @@ var pageToVisit = "http://japanesetest4you.com/";
 // });
 
 let cateName = (("JLPT N5 listening test").trim().replace(/\s/g, "_")).toLocaleLowerCase();
-getDataListeningTest("http://japanesetest4you.com/category/jlpt-n5/jlpt-n5-listening-test/", cateName);
+
+let urlTest1 = "http://japanesetest4you.com/category/jlpt-n2/page/3/";
+let urlTest2 = "http://japanesetest4you.com/category/jlpt-n5/jlpt-n5-listening-test/";
+getDataListeningTest(urlTest1, cateName);
 
 function getDataListeningTest(url, categoryName) {
     request(url, function (error, response, body) {
@@ -54,8 +57,7 @@ function getDataListeningTest(url, categoryName) {
         let pagenavi = $('#content .navigation .wp-pagenavi');
 
         if (pagenavi.text()) {
-            let currentPage = pagenavi.find('span.current').text();
-            console.log(currentPage);
+            let currentPage = parseInt(pagenavi.find('span.current').text());
             let maxPage = 0;
 
             if (pagenavi.find('a.last').text()) {
@@ -63,13 +65,17 @@ function getDataListeningTest(url, categoryName) {
                     return item;
                 });
 
-                maxPage = filter[0];
-                console.log(maxPage);
+                maxPage = parseInt(filter.slice(-1)[0]);
+
+                if (currentPage < maxPage) {
+                    for (let i = (currentPage + 1); i <= maxPage; i++) {
+                        console.log(url + "page/" + i + '/');
+                    }
+                }
             }
             else {
                 pagenavi.find('a.page').each(function (index, element) {
                     let page = $(element).text();
-                    console.log(page);
 
                     if (parseInt(page) > parseInt(currentPage)) {
                         let url = $(element).attr('href');
