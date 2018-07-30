@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    Activate.$inject = ["$scope", "token", "validateToken"];
+    Activate.$inject = ["$scope", "$translate", "token", "validateToken"];
     angular.module('ati.core.activate')
         .controller('Activate', Activate)
         ;
 
-    function Activate($scope, token, validateToken) {
+    function Activate($scope, $translate, token, validateToken) {
         $scope.validateToken = validateToken;
 
         // $.notifyDefaults({

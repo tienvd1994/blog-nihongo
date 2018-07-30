@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('ati.core.language')
-        .config(configTranslate)
+        // .config(configTranslate)
         .constant('LANG_KEY', 'langKey');
 
     function configTranslate($translateProvider, LANG_KEY, LOCALE_EN, LOCALE_VI) {

@@ -1,7 +1,6 @@
 (function () {
     'use strict';
 
-    configTranslate.$inject = ["LANG_KEY", "LOCALE_EN", "LOCALE_VI"];
     angular.module('ati.core.language')
         // .config(configTranslate)
         .constant('LANG_KEY', 'langKey');
