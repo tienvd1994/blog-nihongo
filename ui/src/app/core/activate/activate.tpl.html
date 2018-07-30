@@ -1,0 +1,22 @@
+<section class="box-all box-white">
+    <div class="container">
+        <div class="row">
+            <div class="main-content">
+                <div class="modal-content-wrapper modal-wrapper-md modal modal--static">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Kích hoạt tài khoản</h4>
+                        </div>
+                        <div class="modal-body" ng-if="!validateToken">
+                            <h4>Link kích hoạt không tồn tại hoặc đã hết hạn!</h4>
+                        </div>
+                        <div class="modal-body" ng-if="validateToken">
+                            <h4>Chúc mừng bạn đã kích hoạt thành công!</h4>
+                            <a ui-sref="app.home({page: 'login'})">Đăng nhập ngay ?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

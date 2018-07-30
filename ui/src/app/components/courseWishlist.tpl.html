@@ -1,0 +1,52 @@
+<div ng-class="{'col-md-3 col-sm-4' : $ctrl.isFromMyCourse, 'item': !$ctrl.isFromMyCourse}">
+    <div class="product-item">
+        <a class="link-product" ui-sref="{{$ctrl.isFromMyCourse ? 'app.course.detail({friendlyName: $ctrl.course.friendlyName})' : ($ctrl.isWhishlist ? 'app.course.learn.overview({friendlyName: $ctrl.course.friendlyName})'
+        : 'app.course.detail({friendlyName: $ctrl.course.friendlyName})')}}">
+            <div class="box-img">
+                <span class="card-content-info">
+                    <span>{{$ctrl.course.curriculum.total}} {{'LECTURES' | translate}}</span>
+                    <span>{{$ctrl.course.curriculum.totalTime | secondToHourDecimal}} {{'HOURS' | translate}}</span>
+                </span>
+                <button type="button" class="add-to-wishlist btn btn-sm btn-link">
+                    <span ng-class="{'wish-icon': !$ctrl.isFromMyCourse && !$ctrl.course.isWishlisted, 'wished-icon': $ctrl.isFromMyCourse || $ctrl.course.isWishlisted}"
+                        class="udi udi-heart" id="wishIcon-{{$ctrl.course._id}}" ng-click="$ctrl.addToWishlist(); $event.preventDefault();$event.stopPropagation();"></span>
+                </button>
+                <span class="card-instructor-avatars">
+                    <div class="avatar-img"
+                    style="background-image: url({{ $ctrl.course.instructor.photo || '/assets/images/anonymous_3.png' }})"></div>
+                </span>
+                <img ng-src="{{$ctrl.course.thumbnail || 'assets/images/placeholder_240x135.png'}}">
+            </div>
+            <div class="box-info">
+                <h3 class="title-product" ng-bind-html="$ctrl.course.name"></h3>
+                <div class="desc-product">
+                    {{$ctrl.course.instructor.name}}
+                </div>
+                <span class="star-rating-details">
+                    <span aria-label="Rating: 1 out of 5" class="star-rating--star-rating--static--3wPvS star-rating--star-rating--small--yMOwk">
+                        <span ng-style="{width: ($ctrl.course.rateScore/5)*100 + '%'}"></span>
+                    </span>
+                    <span>
+                        <span class="star-rating">{{$ctrl.course.rateScore}}</span>
+                        <span class="star-rating-count">({{$ctrl.course.rates | number}})</span>
+                    </span>
+                </span>
+                <!--<div class="merchandising-course-card">-->
+                <!--<span class="sr-only">{{'COURSE_DETAIL.DISCOUNT' | translate}}:</span>-->
+                <!--<span class="price-list-price">-->
+                <!--<span class="sr-only">{{'COURSE_DETAIL.ORIGINAL' | translate}}:</span>{{$ctrl.course.price | currency: '' : 0}}-->
+                <!--</span>-->
+                <!--<span class="price-price1">-->
+                <!--<span class="sr-only">{{'COURSE_DETAIL.CURRENT' | translate}}:</span>{{$ctrl.course.saleOff.newPrice | currency: '' : 0}}-->
+                <!--</span>-->
+                <!--</div>-->
+
+                <div class="merchandising-course-card">
+                    <span class="price-list-price" ng-if="!$ctrl.course.isFree"> {{$ctrl.course.price | currency: '': 0}} đ</span>
+                    <span class="price-price1" ng-if="$ctrl.course.isFree">{{'FREE' | translate}}</span>
+                    <span class="price-price1" ng-if="!$ctrl.course.isFree && $ctrl.course.saleOff">{{$ctrl.course.saleOff.newPrice | currency : '': 0}} đ</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

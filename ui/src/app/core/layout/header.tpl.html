@@ -1,0 +1,681 @@
+<div class="c_header__inner">
+    <div class="c_header__logo-container">
+        <a class="c_header__logo-wrap" ui-sref="app.home">
+            <img class="udemy-logo" src="assets/images/logo.png" alt="Medu" width="110" />
+        </a>
+    </div>
+    <div class="c_header__left">
+        <button class="c_header__mobile-bt mobile-bt--overflow udi udi-menu"></button>
+        <div id="dropdownButton" class="dropdown dropdown--topics">
+            <div class="dropdown__toggle">
+                <span class="dropdown__main-link">
+                    <span class="udi udi-explore"></span>
+                    <div class="ellipsis">
+                        {{ 'CATEGORIES' | translate }}
+                    </div>
+                </span>
+            </div>
+            <div class="dropdown__menu">
+                <div class="ud-react-loader">
+                    <ul class="dropdown__menu-list">
+                        <li class="menu__link" ng-repeat="category in categories">
+                            <a ui-sref-opts="{reload:true}" ui-sref="app.category.index({friendlyName: '{{category.friendlyName}}'})">
+                                <span class="menu__icon udi {{category.icon}}"></span>
+                                <span class="menu__title">{{ category.name }}</span>
+                                <span class="menu__arrow udi udi-next"></span>
+                            </a>
+                            <ul class="dropdown__menu-list">
+                                <li class="menu__link">
+                                    <a ui-sref-opts="{reload:true}" ui-sref="app.category.index({friendlyName: '{{category.friendlyName}}'})">
+                                        <span class="menu__title">{{'ALL' | translate}} {{category.name}}</span>
+                                    </a>
+                                </li>
+                                <li class="menu__link" ng-repeat="subCategory in category.subCategories">
+                                    <a data-name="{{subCategory.name}}" data-friendly-name="{{subCategory.friendlyName}}" ui-sref-opts="{reload:true}" ui-sref="app.category.subcategory({friendlyName: '{{category.friendlyName}}',
+                                                                               friendlyNameSubcategory: '{{subCategory.friendlyName}}' })">
+                                        <span class="menu__title">{{subCategory.name}}</span>
+                                        <span class="menu__arrow udi udi-next" ng-if="subCategory.topics.length > 0"></span>
+                                    </a>
+                                    <ul class="dropdown__menu-list">
+                                        <li class="menu__link">
+                                            <span class="menu__course-labels-title">{{'POPULAR_TOPIC' | translate}}</span>
+                                        </li>
+                                        <li class="menu__link">
+                                            <a ui-sref-opts="{reload:true}" ui-sref="app.category.subcategory({friendlyName: '{{category.friendlyName}}',
+                                                                               friendlyNameSubcategory: '{{subCategory.friendlyName}}' })">
+                                                <span class="menu__title">{{'ALL' | translate}} {{currentSubcategory}}</span>
+                                            </a>
+                                        </li>
+                                        <li class="menu__link" ng-repeat="topic in subCategory.topics">
+                                            <a ui-sref-opts="{reload:true, inherit: false}" ui-sref="app.topic.index({friendlyName: topic.friendlyName})">
+                                                <span class="menu__title">{{topic.name}}</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="c_header__search-wrapper">
+            <button class="c_header__mobile-bt mobile-bt--search udi udi-search"></button>
+            <div class="c_header__search">
+                <div class="c_quick-search__form h100p">
+                    <form id="searchbox" class="h100p" ng-submit="search()">
+                        <div class="form-group w100p">
+                            <span class="input-group h100p w100p">
+                                <label for="q" class="sr-only">Search:</label>
+                                <input type="text" name="q" id="q" value="" autocomplete="off" maxlength="200" placeholder="{{'SEARCH_FOR_COURSES' | translate}}"
+                                    class="c_quick-search__input" ng-focus="onFocus()" ng-change="autoComplete()" ng-keypress="enter($event)"
+                                    ng-model="searchPhrase" ng-model-options="{debounce: 300}">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="udi udi-search c_quick-search__btn"></button>
+                                </span>
+                            </span>
+                        </div>
+                    </form>
+                    <div class="dropdown" id="headerSearch">
+                        <ul class="dropdown-menu c_quick-search__results" ng-if="courseSearchResult.length > 0 || userSearchResult.length > 0">
+                            <li ng-repeat="course in courseSearchResult">
+                                <a ui-sref="app.course.detail({friendlyName: '{{course.friendlyName}}'})">
+                                    <span>
+                                        <i class="udi udi-file"></i>
+                                    </span>
+                                    <span class="results__title ellipsis">
+                                        <span ng-bind-html="course.name | highlight:searchPhrase"></span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li ng-repeat="user in userSearchResult">
+                                <a ui-sref="app.user.page({username: user.username})">
+                                    <span>
+                                        <i class="udi udi-user"></i>
+                                    </span>
+                                    <span class="results__title ellipsis">
+                                        <span ng-bind-html="user.name | highlight:searchPhrase"></span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="c_header__mobile-spacer">&nbsp;</div>
+    <div class="c_header__right">
+        <div class="dropdown dropdown--ufb" ng-if="!isAuthenticated()">
+            <div class="dropdown__toggle">
+                <a ui-sref="app.business" class="dropdown__main-link" target="_blank">
+                    {{'FOR_BUSINESS' | translate}}
+                </a>
+            </div>
+            <div class="dropdown__menu dropdown__menu--empty-message">
+                <div class="dropdown__menu-list">
+                    <div class="sc-dropdown__empty-message">
+                        {{'FOR_BUSINESS_DESCRIPTION'|translate}}
+                        <a class="sc-dropdown__to-more" ui-sref="app.business">
+                            {{'TRY_BUSINESS'|translate}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown dropdown--instructor visible-lg-block visible-xlg-block" ng-if="!isAuthenticated() || !isLecturer()">
+            <div class="dropdown__toggle">
+                <a class="dropdown__main-link" ui-sref="app.lecturer.register1">
+                    {{'BECOME_INSTRUCTOR' | translate}}
+                </a>
+            </div>
+            <div class="dropdown__menu dropdown__menu--empty-message">
+                <div class="dropdown__menu-list">
+                    <div class="sc-dropdown__empty-message">
+                        {{'BECOME_INSTRUCTOR_DESC'|translate}}
+                        <a class="sc-dropdown__to-more" ui-sref="app.lecturer.register1">
+                            {{'LEARN_MORE'|translate}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown dropdown--instructor visible-lg-block visible-xlg-block" ng-if="isLecturer()">
+            <div class="dropdown__toggle">
+                <a class="dropdown__main-link" ng-click="goToLectureDashboard();$event.stopPropagation()">{{ 'INSTRUCTOR' | translate }}</a>
+            </div>
+            <div class="dropdown__menu">
+                <div class="dropdown__menu-list">
+                    <div class="menu__link pb15" ng-if="$parent.draftCourse">
+                        <a ng-click="$parent.goToDraftCourse()" class="progress-link">
+                            <span class="menu__title">{{ 'FINISH_YOUR_COURSE' | translate }}</span>
+                            <div class="progress-xs">
+                                <div class="progress-bar" style="width: {{100 * $parent.draftCourse.steps.length / 8}}%;"></div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="menu__link--bordered" ng-if="$parent.draftCourse"></div>
+                    <div class="menu__link">
+                        <a ui-sref="app.lecturer.teaching">
+                            <span class="menu__title">{{'INSTRUCTOR_DASHBOARD' | translate}}</span>
+                        </a>
+                    </div>
+                    <div class="menu__link">
+                        <a href="#" target="_blank">
+                            <span class="menu__title">{{'NEWS_AND_RESOURCES' | translate}}</span>
+                        </a>
+                    </div>
+                    <div class="menu__link--bordered"></div>
+                    <div class="menu__link">
+                        <a ui-sref="app.course.create">
+                            <span class="menu__title">{{'CREATE_A_COURSE' | translate}}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="isAuthenticated()" ng-click="goToMyCourse()">
+            <div class="dropdown dropdown--mycourses hidden-xs hidden-sm">
+                <div class="dropdown__toggle">
+                    <a class="dropdown__main-link" target="_self">
+                        {{ 'MY_COURSES' | translate}}
+                    </a>
+                </div>
+                <div class="dropdown__menu dropdown__menu--empty-message" ng-if="myCourses.length > 0">
+                    <div class="dropdown__menu" role="dialog">
+                        <div class="mycourses">
+                            <div class="mycourses__item play-button-trigger" ng-repeat="course in myCourses | limitTo: 4">
+                                <a class="mycourses__link" ui-sref="app.course.detail({friendlyName: '{{course.course.friendlyName}}'})">
+                                    <div class="mycourses__image">
+                                        <img ng-src="{{course.course.thumbnail || 'assets/images/placeholder_240x135.png'}}" alt="{{ course.course.name }}" height="50"
+                                            width="50" />
+                                        <div class="play-button" ng-click="goToLecture($event,course)"></div>
+                                    </div>
+                                    <div class="metadata fx">
+                                        <h1 class="metadata__title" ng-bind-html="course.course.name"></h1>
+                                        <div class="metadata__instructor">
+                                            {{'FEATURED.BY' | translate}} {{ course.course.instructor.name }}
+                                        </div>
+                                        <!--<div class="progress-xs mt5">-->
+                                        <!--<div class="progress-bar" style="width: 0%;"></div>-->
+                                        <!--</div>-->
+                                        <div class="progress-xs-header">
+                                            <div class="progress-bar" role="progressbar" aria-valuenow="{{course.completionRatio}}" aria-valuemin="0" aria-valuemax="100"
+                                                ng-style="{width : ( course.completionRatio + '%' ) }"></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="dropdown__footer">
+                            <a class="link--dropdown-footer link--see-all" ui-sref="app.myCourses.allCourses" target="_self">
+                                {{'SEE_ALL' | translate}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="wishlist visible-lg-block visible-xlg-block" ui-sref="app.myCourses.wishlist" ng-if="isAuthenticated()">
+            <div class="ud-component--shopping-dropdown--app ud-react-loader ud-react-loaded">
+                <div class="styles--dropdown--29tlt">
+                    <div class="styles--dropdown__toggle--2TG5O">
+                        <button data-purpose="dropdown-click" tabindex="0" class="styles--dropdown__main-link--zYdJP">
+                            <div>
+                                <span class="styles--dropdown__main-icon--3E7NW udi udi-heart-o"></span>
+                                <span class="sr-only">Whishlist</span>
+                                <b ng-if="wishList.length > 0" data-purpose="dropdown-count" aria-label="1 item" class="styles--badge--3KHzo">
+                                    <span>{{wishList.length}}</span>
+                                </b>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="react-cloak styles--dropdown__menu--20Bk-">
+                        <ul class="shopping-list-items shopping-list-items-dropdown" ng-if="wishList.length > 0">
+                            <li class="shopping-list-item" ng-repeat="item in wishList">
+                                <div class="shop-card">
+                                    <div class="card-thumbnail">
+                                        <a href="app.course.detail({friendlyName: item.friendlyName})">
+                                            <img ng-src="{{item.thumbnail || '/assets/images/placeholder_240x135.png'}}" class="card-image card-image-sm">
+                                        </a>
+                                    </div>
+                                    <div class="card-column-wrapper">
+                                        <div>
+                                            <a ui-sref="app.course.detail({friendlyName: '{{item.friendlyName}}'})">
+                                                <div class="card-title">{{ item.name }}</div>
+                                                <div class="card-instructors">
+                                                    <span>{{'FEATURED.BY' | translate}} {{item.instructor.name}}
+                                                        <!--<span>, {{item.instructor.title}}</span>-->
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a ui-sref="app.course.detail({friendlyName: '{{item.friendlyName}}'})">
+                                                <div class="card-prices" ng-if="!item.isFree">
+                                                    <span class="card-purchase-price price-latest-coupon" ng-show="item.saleOff">{{item.saleOff.newPrice | currency : '' : 0}} đ</span>
+                                                    <span class="card-list-price">{{item.price | currency : '' : 0}} đ</span>
+                                                </div>
+                                                <!--<div class="card-prices" ng-if="!item.isFree && !item.saleOff">-->
+                                                <!--<span class="card-purchase-price price-latest-coupon">{{item.price | currency: '' : 0}} đ</span>-->
+                                                <!--</div>-->
+                                                <div class="free-wishlist-header" ng-if="item.isFree">
+                                                    <span>{{ 'FREE' | translate }}</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div ng-if="!item.isFree">
+                                            <button type="button" class="default add-to-cart-button btn btn-xs btn-default" ng-click="addToCart(item)">
+                                                <div>
+                                                    <span class="">{{ 'ADD_TO_CART' | translate }}</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="styles--dropdown__footer--2q66h" ng-if="!isStateWishlist && wishList.length > 0">
+                            <a ui-sref="app.myCourses.wishlist" class="btn btn-secondary btn-block">{{ 'GO_TO_WISHLIST' | translate }}</a>
+                        </div>
+                        <div class="styles--sc-dropdown__empty-message--24wbn" ng-if="wishList.length <= 0">
+                            {{'WISH_LIST_EMPTY' | translate}}
+                            <a ui-sref="app.home" class="styles--sc-dropdown__to-more--o3k3O">{{ 'EXPLORE_COURSE' | translate}}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <a class="shopping-cart" ui-sref="app.cart.list">
+            <div class="ud-component--shopping-dropdown--app ud-react-loader ud-react-loaded">
+                <div class="styles--dropdown--29tlt">
+                    <div class="styles--dropdown__toggle--2TG5O">
+                        <button data-purpose="dropdown-click" tabindex="0" class="styles--dropdown__main-link--zYdJP">
+                            <div>
+                                <span class="styles--dropdown__main-icon--3E7NW udi udi-cart-line"></span>
+                                <span class="sr-only">Shoplist</span>
+                                <b ng-if="shoppingCarts.length > 0" data-purpose="dropdown-count" aria-label="1 item" class="styles--badge--3KHzo">
+                                    <span>{{shoppingCarts.length}}</span>
+                                </b>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="react-cloak styles--dropdown__menu--20Bk-" ng-if="shoppingCarts.length > 0">
+                        <ul class="styles--sc-shopping-list__items--h-1Zf styles--sc-shopping-list__items--dropdown--eop-D">
+                            <li class="styles--sc-shopping-list__item--26SKJ" ng-repeat="item in shoppingCarts">
+                                <div class="styles--sc-card--3imwn">
+                                    <div data-purpose="cart-thumbnail" class="styles--sc-card__thumbnail--1rTuN">
+                                        <a ui-sref="app.course.detail({friendlyName: '{{item.friendlyName}}'})">
+                                            <img data-purpose="card-thumbnail-lg" ng-src="{{item.thumbnail || '/assets/images/placeholder_240x135.png'}}" class="styles--sc-card__image--2xyJE styles--sc-card__image--lg--J8lG8">
+                                            <img data-purpose="card-thumbnail-sm" ng-src="{{item.thumbnail || '/assets/images/placeholder_240x135.png'}}" class="styles--sc-card__image--2xyJE styles--sc-card__image--sm--WZWal">
+                                        </a>
+                                    </div>
+                                    <div class="styles--sc-card__column-wrapper--1pCwq">
+                                        <div>
+                                            <a ui-sref="app.course.detail({friendlyName: '{{item.friendlyName}}'})">
+                                                <div data-purpose="shopping-course-card-title" class="styles--sc-card__title--L-qWv">{{item.name}}
+                                                </div>
+                                                <div class="styles--sc-card__instructors--DCi03">
+                                                    <span> {{'FEATURED.BY' | translate }} {{item.instructor.name}}
+                                                        <!--<span>, {{item.instructor.title}}</span>-->
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div>
+                                            <a ui-sref="app.course.detail({friendlyName: '{{item.friendlyName}}'})">
+                                                <div class="styles--sc-card__prices--1-_t8">
+                                                    <div ng-if="item.saleOff">
+                                                        <span class="styles--sc-card__purchase-price--_VyIE styles--sc-card__purchase-price--latest-coupon--V00et">{{item.saleOff.newPrice | currency: '' : 0}} đ</span>
+                                                        <span class="styles--sc-card__list-price--35l-5">{{item.price | currency : '' : 0}} đ</span>
+                                                    </div>
+                                                    <span ng-if="!item.saleOff" class="styles--sc-card__purchase-price--_VyIE styles--sc-card__purchase-price--latest-coupon--V00et">{{item.price | currency : '' : 0}} đ</span>
+                                                    <div class="styles--sc-card__coupon--3BPbe styles--sc-card__coupon--latest--3p_28">
+                                                        <div class="tooltip-container">
+                                                            <span class="udi udi-coupon"></span>
+                                                            <div id="RVL45SG1803DEAL15" role="tooltip" class="tooltip tooltip-neutral left">
+                                                                <div class="tooltip-arrow"></div>
+                                                                <div class="tooltip-inner">RVL45SG1803DEAL15</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <noscript></noscript>
+                                </div>
+                                <span style="font-size: 0px;"></span>
+                            </li>
+                        </ul>
+                        <div class="styles--dropdown__footer--2q66h" ng-if="!isStateCartList">
+                            <div data-purpose="cart-total" class="styles--sc-checkout-box__total--346Yo styles--sc-checkout-box__total--dropdown--WgAqQ">
+                                <span class="styles--sc-checkout-box__total-label--m6kj4">{{'TOTAL' | translate}}:</span>
+                                <b class="styles--sc-checkout-box__total-price--3u3TW">
+                                    <span>{{cartTotalSale | number : '' : 0 }} đ</span>
+                                </b>
+                                <div class="styles--sc-checkout-box__discount--38tXM">
+                                    <s>
+                                        <span>{{cartTotal | number : '' : 0 }} đ</span>
+                                    </s>
+                                </div>
+                            </div>
+                            <a ui-sref="app.cart.list" tabindex="0" role="button" class="btn btn-secondary btn-block">
+                                {{'GO_TO_CART' | translate}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="react-cloak styles--dropdown__menu--20Bk-" ng-if="shoppingCarts.length <= 0">
+                        <div data-purpose="cart-list" class="styles--sc-dropdown__empty-message--24wbn">
+                            {{'CART_EMPTY' | translate}}
+                            <a data-purpose="keep-shopping" ui-sref="app.home" class="styles--sc-dropdown__to-more--o3k3O">{{'KEEP_SHOPPING' | translate}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div class="c_user-notification" ng-if="isAuthenticated()">
+            <div class="dropdown dropdown--icon dropdown--notification visible-lg-block visible-xlg-block">
+                <div class="dropdown__toggle">
+                    <a class="dropdown__main-link" aria-expanded="false" role="button" href="javascript:void(0)">
+                        <div class="pos-r">
+                            <i class="udi udi-bell-line dropdown__main-icon"></i>
+                            <span class="sr-only">{{ 'NOTIFICATIONS' | translate}}</span>
+                            <b class="badge" ng-show="notifications.total > 0" aria-label="0 new notifications">
+                                <span>{{notifications.total}}</span>
+                            </b>
+                        </div>
+                    </a>
+                </div>
+                <div aria-label="Notifications" class="dropdown__menu" role="dialog">
+                    <!---->
+                    <div>
+                        <header class="dropdown__header dropdown__tab-header fx-lt">
+                            <div class="dropdown__title fx mr10">
+                                <span translate="">
+                                    <span>{{ 'NOTIFICATIONS' | translate}}</span>
+                                </span>
+                            </div>
+                            <div class="dropdown__tab-btns fx-ie mr15">
+                                <!---->
+                                <a class="dropdown__tab-bt" ng-class="{active: !$parent.showStudentNotification}" ng-show="$parent.hasLecturerNotification"
+                                    ng-click="$parent.toggleNotification()">
+                                    {{'INSTRUCTOR' | translate}}
+                                    <b class="badge notification__instructor-badge" ng-show="lecturerUnread() > 0">
+                                        <span>{{ lecturerUnread() }}</span>
+                                    </b>
+                                </a>
+                                <a class="dropdown__tab-bt" ng-class="{active: $parent.showStudentNotification}" ng-show="$parent.hasStudentNotification"
+                                    ng-click="$parent.toggleNotification()">
+                                    {{'STUDENT' | translate}}
+                                    <b class="badge notification__student-badge" ng-show="studentUnread() > 0">
+                                        <span>{{ studentUnread() }}</span>
+                                    </b>
+                                </a>
+                            </div>
+                            <a class="dropdown__setting" ui-sref="app.user.notification">
+                                <i class="udi udi-settings"></i>
+                            </a>
+                        </header>
+
+                        <div class="notification__list" ng-show="showStudentNotification">
+                            <div class="p20 fx-c text-midnight-lighter" ng-if="notifications.student.length <= 0">
+                                <div>
+                                    <span>{{'NO_NOTIFICATION' | translate}}</span>
+                                </div>
+                            </div>
+                            <header-notification on-mark-as-read="onMarkAsRead(notification)" class="notification__item" ng-repeat="notification in notifications.student"
+                                ng-if="notifications.student.length > 0" notification="notification"></header-notification>
+                        </div>
+                        <div class="notification__list" ng-show="!showStudentNotification">
+                            <div class="p20 fx-c text-midnight-lighter" ng-if="notifications.lecturer.length <= 0">
+                                <div>
+                                    <span>{{'NO_NOTIFICATION' | translate}}</span>
+                                </div>
+                            </div>
+                            <header-notification on-mark-as-read="onMarkAsRead(notification)" class="notification__item" ng-repeat="notification in notifications.lecturer"
+                                ng-if="notifications.lecturer.length > 0" notification="notification"></header-notification>
+                            <div class="fx-c pt10 ng-hide" ng-show="showLoadMore &amp;&amp; tab.counts.pagesLeft > 0">
+                                <button class="btn btn-primary" ng-click="loadNotifications(tab.name)" ng-disabled="loadingNotifications(tab.name)" translate="">
+                                    <span>Load more</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p10 fx-c ng-hide">
+                        <span class="udi udi-circle-loader udi-small"></span>
+                    </div>
+                    <div class="dropdown__footer" ng-show="showStudentNotification && notifications.student.length > 0">
+                        <span class="link--dropdown-footer link--mark-all" ng-click="markAllRead('STUDENT')">
+                            {{'MARK_ALL_READ' | translate}}
+                        </span>
+                        <a ui-sref="app.user.viewNotification({student:true})" class="link--dropdown-footer link--see-all">
+                            {{'SEE_ALL' | translate}}
+                            <span class="udi udi-next"></span>
+                        </a>
+                    </div>
+                    <div class="dropdown__footer" ng-show="!showStudentNotification && notifications.lecturer.length > 0">
+                        <span class="link--dropdown-footer link--mark-all" ng-click="markAllRead('LECTURER')">
+                            {{'MARK_ALL_READ' | translate}}
+                        </span>
+                        <a ui-sref="app.user.viewNotification({student:false})" class="link--dropdown-footer link--see-all">
+                            {{'SEE_ALL' | translate}}
+                            <span class="udi udi-next"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown dropdown--login" ng-if="!isAuthenticated()">
+            <div>
+                <a class="btn btn-quaternary" ng-click="showLogin()">{{'LOGIN' | translate}}
+                </a>
+            </div>
+        </div>
+        <div class="dropdown dropdown--signup hide" ng-if="!isAuthenticated()">
+            <div>
+                <a class="btn btn-primary" href="javascript:void(0)" ng-click="showRegister()">{{'SIGNUP' | translate}}
+                </a>
+            </div>
+        </div>
+        <div class="dropdown dropdown--user" ng-if="isAuthenticated()">
+            <div class="dropdown__toggle">
+                <a class="dropdown__main-link" ui-sref="app.user.profile">
+                    <div class="pos-r">
+                        <div class="user-avatar user-avatar--header">
+                            <div class="user-avatar__inner">
+                                <div class="img-circle user-avatar__img" style="background-image:url('{{ currentUser.photo }}')" title="{{ currentUser.name }}"></div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="dropdown__menu">
+                <ul class="dropdown__menu-list">
+                    <li class="menu__link">
+                        <a ui-sref="app.user.profile">
+                            <div class="user-avatar user-avatar--header">
+                                <div class="user-avatar__inner">
+                                    <div class="img-circle user-avatar__img" style="background-image:url('{{ currentUser.photo }}')" title="{{ currentUser.name }}"></div>
+                                </div>
+                            </div>
+                            <span class="dropdown__user-info">
+                                <span class="dropdown__user-name ellipsis">{{ currentUser.name }}</span>
+                                <span class="dropdown__user-mail ellipsis">{{ currentUser.email }}</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li class="menu__link hidden-lg hidden-xlg">
+                        <a href="javascript:void(0)" target="_self">
+                            <span class="udi udi-bell-line"></span>
+                            <span class="menu__title">{{ 'MY_NOTIFICATIONS' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="menu__link">
+                        <a href="javascript:void(0)">
+                            <span class="udi udi-chat-line"></span>
+                            <span class="menu__title">{{ 'MY_MESSAGES' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="menu__link">
+                        <a href="javascript:void(0)">
+                            <span class="udi udi-finance"></span>
+                            <span class="menu__title">Medu Credits</span>
+                        </a>
+                    </li>
+                    <li class="menu__link">
+                        <a href="javascript:void(0)">
+                            <span class="udi udi-purchase-history-line"></span>
+                            <span class="menu__title">{{ 'PURCHASE_HISTORY' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="menu__link--bordered mr0-force ml0-force hidden-lg hidden-xlg"></li>
+                    <li class="menu__link hidden-md hidden-lg hidden-xlg">
+                        <a href="javascript:void(0)" target="_self">
+                            <span class="menu__title">{{ 'MY_COURSES' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="menu__link hidden-lg hidden-xlg">
+                        <a href="javascript:void(0)" target="_self">
+                            <span class="menu__title">{{ 'MY_WISHLIST' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="menu__link hidden-lg hidden-xlg">
+                        <a href="javascript:void(0)">
+                            <span class="menu__title">{{ 'BECOME_INSTRUCTOR' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="dropdown__menu-list dropdown__menu-list--bottom">
+                    <li class="menu__link">
+                        <a href="javascript:void(0)" target="_blank">
+                            <span class="menu__title">{{ 'HELP' | translate}}</span>
+                        </a>
+                    </li>
+                    <li class="menu__link">
+                        <a href="javascript:void(0)" ng-click="logout()">
+                            <span class="menu__title">{{'LOGOUT' | translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav class="overflow-nav">
+    <div class="overflow-nav--main">
+        <ul class="overflow-nav__links">
+            <li class="menu__link menu__link--main">
+                <a href="javascript:void(0)" data-id="m1">
+                    <span class="menu__title">{{'CATEGORIES' | translate}}</span>
+                    <span class="udi udi-next"></span>
+                </a>
+            </li>
+            <li class="menu__link">
+                <a href="#">
+                    <span class="menu__title">{{'TEACH_ONLINE' | translate}}</span>
+                </a>
+            </li>
+            <li class="menu__link">
+                <a href="#">
+                    <span class="menu__title">{{'FOR_BUSINESS' | translate}}</span>
+                </a>
+            </li>
+            <li class="menu__link">
+                <a href="#">
+                    <span class="menu__title">{{'HELP' | translate}}</span>
+                </a>
+            </li>
+            <li class="menu__link menu__link--auth" ng-if="!isAuthenticated()">
+                <div class="hide">
+                    <a href="javascript:void(0)" class="btn btn-primary btn-block" ng-click="showRegister()">
+                        {{'SIGNUP' | translate}}
+                    </a>
+                </div>
+                <div>
+                    <a class="auth__login btn btn-quaternary btn-block" href="javascript:void(0)" ng-click="showLogin()">
+                        {{'LOGIN' | translate}}
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="overflow-nav--sub" id="m1">
+        <header>
+            <a class="overflow-nav__back-bt">
+                <span class="udi udi-previous"></span>
+                Menu
+            </a>
+        </header>
+        <ul>
+            <li class="menu__link" ng-repeat="category in categories">
+                <a ng-href="/courses/{{category.friendlyName}}">
+                    <b class="menu__icon udi {{category.icon}}"></b>
+                    <span class="menu__title">{{ category.name }}</span>
+                    <span class="udi udi-next" data-id="ms{{$index}}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="overflow-nav--sub-sub" ng-repeat="category in categories" id="ms{{$index}}">
+        <header>
+            <a class="overflow-nav__back-bt">
+                <span class="udi udi-previous"></span>
+                Menu
+            </a>
+            <a class="overflow-nav__back-bt overflow-nav__back-ctg-bt">
+                <span class="udi udi-previous"></span>
+                <b class="menu__icon udi udi-development"></b>
+                {{category.name}}
+            </a>
+        </header>
+        <ul>
+            <li class="menu__link">
+                <a href="#">
+                    <b class="menu__main-title">
+                        All {{category.name}}
+                    </b>
+                </a>
+            </li>
+            <li class="menu__link" ng-repeat="subCategory in category.subCategories">
+                <a ng-click="loadTopics(subCategory.name, subCategory.friendlyName)">
+                    <span class="menu__title">{{subCategory.name}}</span>
+                    <span class="udi udi-next" data-id="mss{{$index}}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="overflow-nav--sub-sub-sub" id="mss1">
+        <header>
+            <a class="overflow-nav__back-bt">
+                <span class="udi udi-previous"></span>
+                Menu
+            </a>
+            <a class="overflow-nav__back-bt overflow-nav__back-ctg-bt">
+                <span class="udi udi-previous"></span>
+                <b class="menu__icon udi udi-test-prep"></b>
+                {{currentSubcategory}}
+            </a>
+        </header>
+        <ul>
+            <li class="menu__link">
+                <a href="#">
+                    <b class="menu__main-title">
+                        All {{currentSubcategory}}
+                    </b>
+                </a>
+            </li>
+            <li class="menu__link" ng-repeat="topic in topics">
+                <a ng-href="/topics/{{topic.friendlyName}}">
+                    <span class="menu__title">{{topic.name}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="c_header__overlay">
+</div>

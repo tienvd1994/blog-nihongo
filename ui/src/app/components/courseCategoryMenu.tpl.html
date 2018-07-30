@@ -1,0 +1,39 @@
+<div class="c_link-bar c_link-bar--channel skin6">
+    <div class="p_channel-wrapper fx-jsb">
+        <div class="c_link-bar--channel__inner oh" id="target-channels-nav">
+            <div class="c_link-bar__cat active">
+                <a ui-sref="app.category.index({friendlyName: '{{$ctrl.category.friendlyName}}'})">
+                    <span class="chan-icon">
+                        <span class="udi {{$ctrl.category.icon}}"></span>
+                    </span>
+                    <span class="chan-title">{{$ctrl.category.name}}</span>
+                </a>
+            </div>
+            <div class="c_link-bar__sub-cat" ng-repeat="subCategory in $ctrl.subCategories | limitTo: 7"
+                ng-class="{'active': $ctrl.currentSubcategory === subCategory.friendlyName}">
+                <a ui-sref="app.category.subcategory({friendlyName: '{{$ctrl.category.friendlyName}}', friendlyNameSubcategory: '{{subCategory.friendlyName}}'})">
+                    <span class="chan-icon">
+                        <span class="udi {{subCategory.icon}}"></span>
+                    </span>
+                    <span class="chan-title">{{subCategory.name}}</span>
+                </a>
+            </div>
+        </div>
+        <div class="dropdown c_link-bar--channel__dropdown" dropdown ng-if="$ctrl.subCategories.length > 7">
+            <button type="button" class="btn btn-tertiary dropdown-toggle" dropdown-toggle>
+                <i class="udi udi-overflow"></i>
+                </span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="subCategoriesAfter in $ctrl.subCategories | limitTo: 7 - $ctrl.subCategories.length">
+                    <a ui-sref="app.category.subcategory({friendlyName: '{{$ctrl.category.friendlyName}}', friendlyNameSubcategory: '{{subCategoriesAfter.friendlyName}}'})">
+                        <span class="chan-icon">
+                            <span class="udi udi-development-tools"></span>
+                        </span>
+                        <span class="chan-title">{{subCategoriesAfter.name}}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

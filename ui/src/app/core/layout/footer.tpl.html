@@ -1,0 +1,450 @@
+<footer>
+    <hr/>
+    <div class="container-fluid footer__main">
+        <div class="row">
+            <div class="col-sm-3 footer__links--main">
+                <ul class="links ">
+                    <li>
+                        <a ui-sref="app.about">
+                            {{'ABOUT_US' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a ui-sref="app.contact">
+                            {{'CONTACT' | translate}}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" ng-click="showContractForm()">
+                            {{'FEEDBACK' | translate}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="hidden-xxs hidden-xs col-sm-4 footer__links--main">
+                <h3 class="link-big">{{'CONTACT_INFO' | translate}}</h3>
+                <div class="text-info">
+                    <span>{{'ADDRESS' | translate}}:</span> Tầng 4, tòa nhà Láng Trung, số 60 ngõ 850 đường Láng, phường Láng Thượng,
+                    quận Đống Đa, Hà Nội.
+                    <br>
+                    <span>{{'PHONE' | translate}}:</span> 024 6255 3456
+                    <br>
+                    <span>Email:</span> info@ask.com.vn
+                    <br>
+                </div>
+            </div>
+            <div class="col-sm-3 footer-links-social">
+                <h3 class="text-footer">
+                    {{'CONNECT_WITH_MEDU_ON_SOCIAL_NETWORKS' | translate}}
+                </h3>
+                <a href="#" class="btn btn-sm btn-default">
+                    <i class="udi udi-facebook-f"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-default">
+                    <i class="udi udi-twitter"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-default">
+                    <i class="udi udi-google-plus"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-default">
+                    <i class="udi udi-linkedin"></i>
+                </a>
+            </div>
+            <div class="col-sm-2 text-right">
+                <div class="ud-component--footer--locale-dropdown pull-right">
+                    <div class="locale-dropdown btn-group" dropdown ng-class="{'open': languageShown}">
+                        <button id="locale-dropdown" type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-quaternary" dropdown-toggle
+                            ng-click="showLanguages()">
+                            <span class="pr15">
+                                <span class="ml10 mr10 udi udi-globe"></span>
+                                <span class="mr10">{{lang == 'vi' ? 'VIETNAMESE' : 'ENGLISH' | translate}}</span>
+                                <span class="pos-a" style="right: 12px;">
+                                    <span class="dropdown-caret udi udi-angle-down"></span>
+                                </span>
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a ng-click="selectLanguage('vi')">{{'VIETNAMESE' | translate}}</a>
+                            </li>
+                            <li>
+                                <a ng-click="selectLanguage('en')">{{'ENGLISH' | translate}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="row" ng-show="!isAuthenticated()">-->
+        <!--<div class="col-sm-12">-->
+        <!--<ul class="links list-inline mt30" ng-if="lang == 'vi'">-->
+        <!--<li>-->
+        <!--<strong>Ngôn ngữ:</strong>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--{{'VIETNAMESE' | translate}}-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a ng-click="selectLanguage('en')">{{'ENGLISH' | translate}}</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--<ul class="links list-inline mt30" ng-if="lang == 'en'">-->
+        <!--<li>-->
+        <!--<strong>Local Home Pages:</strong>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--{{'ENGLISH' | translate}}-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a ng-click="selectLanguage('vi')"> {{'VIETNAMESE' | translate}}</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+    <hr/>
+    <div class="container-fluid footer__bottom">
+        <div class="row">
+            <div class="col-sm-6 vcenter">
+                <a class="dib mr20" href="/">
+                    <img alt="Medu" class="udemy-logo" src="assets/images/logo.jpg" />
+                </a>
+                <div class="visible-xxs-block visible-xs-inline-block mb10"></div>
+                <span class="footer__copyright dib mr20 text-midnight-lighter">
+                    Copyright © 2018 Medu, Inc.
+                </span>
+                <div class="visible-xxs-block visible-xs-inline-block mb10"></div>
+            </div>
+            <div class="col-sm-6 text-right footer__links--bottom vcenter">
+                <ul class="links list-inline">
+                    <li>
+                        <a ui-sref="app.term.index">{{'TERM_OF_USE'|translate}}</a>
+                    </li>
+                    <li>
+                        <a ui-sref="app.term.privacy">{{'PRIVACY_POLICY'|translate}}</a>
+                    </li>
+                    <li>
+                        <a ui-sref="app.term.copyright">{{'INTELLECTUAL_PROPERTY' | translate}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr class="hr-primary" />
+</footer>
+
+<!--gop y form-->
+<div class="modal register-modal fade" id="gopy">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="loginbox-v4 modal-content-wrapper js-signin-box ud-angular-loader">
+                <div class="loginbox-v4__header">
+                    {{'FEEDBACK_MODULE.HEADER_TITLE' | translate}}
+                </div>
+                <alert-box></alert-box>
+                <div class="loginbox-v4__content">
+                    <form name="contactForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="{{ 'FEEDBACK_MODULE.NAME'| translate}}" ng-model="request.name" ng-required="true"
+                                ng-minlength="3" />
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Email" ng-required="true" ng-model="request.email" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="{{ 'FEEDBACK_MODULE.TITLE'| translate}}" ng-model="request.title" ng-required="true"
+                                ng-minlength="6" />
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control resize-vertical" placeholder="{{ 'FEEDBACK_MODULE.CONTENT'| translate}}" ng-model="request.content"
+                                ng-required="true" ng-minlength="6"></textarea>
+                        </div>
+                        <div class="form-group a11">
+                            <i>
+                                {{ 'FEEDBACK_MODULE.THANK_YOU'| translate}}
+                            </i>
+                        </div>
+                        <button class="btn btn-primary" ng-disabled="!isFormValidContactForm() || formProcessing" ng-click="submit()">
+                            <i class="fa fa-spinner fa-spin" ng-show="formProcessing"></i> {{'SUBMIT' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+            <a class="close" ng-click="closeModal()" data-dismiss="modal" aria-label="Close">
+                <span>×</span>
+            </a>
+        </div>
+    </div>
+</div>
+<!--end gop y-->
+
+<!--report abuse-->
+<div class="modal register-modal fade" id="report-abuse">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="loginbox-v4 modal-content-wrapper js-signin-box ud-angular-loader">
+                <div class="loginbox-v4__header">
+                    {{'FEEDBACK_MODULE.REPORT' | translate}}
+                </div>
+                <alert-box></alert-box>
+                <div class="loginbox-v4__content">
+                    <form name="reportForm">
+                        <div class="form-group a11">
+                            <i>
+                                {{ 'FEEDBACK_MODULE.REPORT_DES'| translate}}
+                            </i>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ 'FEEDBACK_MODULE.PROBLEMS'| translate}}</label>
+                            <select class="form-control" ng-model="reportAbuse.problem" ng-required="true" ng-options="item for item in problems track by $index">
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control resize-vertical" placeholder="{{ 'FEEDBACK_MODULE.CONTENT'| translate}}" ng-model="reportAbuse.content"
+                                ng-required="true" ng-minlength="6"></textarea>
+                        </div>
+
+                        <button class="btn btn-primary" ng-disabled="!isFormReportValid() || formProcessing" ng-click="submit()">
+                            <i class="fa fa-spinner fa-spin" ng-show="formProcessing"></i> {{'SUBMIT' | translate}}</button>
+                    </form>
+                </div>
+            </div>
+            <a class="close" ng-click="closeModal()" data-dismiss="modal" aria-label="Close">
+                <span>×</span>
+            </a>
+        </div>
+    </div>
+</div>
+<!--end report abuse-->
+
+<!--login form-->
+<div class="modal modal-login fade" ng-class="{'in': $parent.loginShown}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div>
+                <div>
+                    <div class="loginbox-v4 modal-content-wrapper js-signin-box ud-angular-loader">
+                        <div>
+                            <div></div>
+                        </div>
+                        <div class="loginbox-v4__header">
+                            {{'LOGIN_TO_ACCOUNT'|translate}}
+                        </div>
+                        <div class="loginbox-v4__content">
+                            <div>
+                                <a ng-click="loginFacebook()" class="social-btn social-btn--facebook js-facebook-btn shadowed-btn fxac">
+                                    <i class="udi udi-facebook-f social-icon"></i>
+                                    {{'LOGIN_FACEBOOK'|translate}}
+                                    <span class="udi udi-circle-loader udi-small hidden"></span>
+                                </a>
+                            </div>
+                            <div>
+                                <google-plus-signin clientid="987075561599-i4itnrjn1v2p177qc77gqq8fnevdt50r.apps.googleusercontent.com" autorender="false"
+                                    customtargetid="my-custom-element">
+                                    <a href="javascript:void(0)" class="social-btn social-btn--google js-google-btn shadowed-btn fxac">
+                                        <i class="udi udi-google social-icon"></i>
+                                        {{'LOGIN_GOOGLE'|translate}}
+                                        <span class="udi udi-circle-loader udi-small hidden"></span>
+                                    </a>
+                                </google-plus-signin>
+                                <!-- <a href="javascript:void(0)"
+                                   class="social-btn social-btn--google js-google-btn shadowed-btn fxac">
+                                    <i class="udi udi-google social-icon"></i>
+                                    {{'LOGIN_GOOGLE'|translate}}
+                                    <span class="udi udi-circle-loader udi-small hidden"></span>
+                                </a> -->
+                                <form id="google-plus-login-form" method="post" action="#" class="ng-pristine ng-valid">
+                                    <input type="hidden" name="access_token" value="" autocomplete="off" />
+                                    <input type="hidden" name="code" value="" autocomplete="off" />
+                                    <input type="hidden" name="from" value="login" autocomplete="off" />
+                                </form>
+                            </div>
+                            <div class="loginbox-v4__separator-container">
+                                <div class="loginbox-v4__separator"></div>
+                                <div class="loginbox-v4__separator-text">{{'OR'|translate}}</div>
+                                <div class="loginbox-v4__separator"></div>
+                            </div>
+                            <form id="login-form" name="loginForm" class="signin-form dj ng-pristine ng-valid">
+                                <alert-box ng-show="$parent.loginShown"></alert-box>
+                                <input type="hidden" name="csrfmiddlewaretoken" value="" autocomplete="off" />
+                                <div class="manage-fields-wrapper">
+                                    <input type="hidden" name="locale" value="en_US" autocomplete="off" />
+                                    <div class="form-field-container labeled" id="form-item-email">
+                                        <!--<label class="control-label" for="id_email">Email</label>-->
+                                        <div class="tooltip-reference pos-r ">
+                                            <input class="emailinput form-control" maxlength="64" name="username" placeholder="E-mail" type="email" ng-model="credentials.username"
+                                                ng-required="true" ng-minlength="3">
+                                            <div class="js-suggestion mt5 dn"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-field-container labeled" id="form-item-password">
+                                        <!--<label class="control-label" for="id_password">{{'PASSWORD'|translate}}</label>-->
+                                        <div class="tooltip-reference pos-r ">
+                                            <input class="textinput textInput form-control" name="password" placeholder="{{'PASSWORD'|translate}}" type="password" ng-model="credentials.password"
+                                                ng-required="true" ng-minlength="3">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="submit-row">
+                                        <button type="submit" class="btn btn-primary" ng-disabled="!isFormValid() || formProcessing" ng-click="login(credentials)">
+                                            <i class="fa fa-spinner fa-spin" ng-show="formProcessing"></i>
+                                            {{'LOGIN'|translate}}
+                                        </button>
+                                        <span>{{'OR'|translate|lowercase}}&nbsp;</span>
+                                        <a ng-click="showForgotPassword()" class="cancel-link">{{'FORGOT_PASSWORD'|translate}}</a>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="loginbox-v4__secondary-text">
+                                {{'BY_SIGNING_UP'|translate}}
+                                <a ui-sref="app.term.index" target="_blank">{{'TERM_OF_USE'|translate}}</a> {{'AND'|translate}}
+                                <a ui-sref="app.term.privacy" target="_blank">{{'PRIVACY_POLICY'|translate}}</a>.
+                            </div>
+                            <div class="loginbox-v4__separator"></div>
+                        </div>
+                        <div class="loginbox-v4__footer hide">
+                            {{'DONT_HAVE_ACCOUNT'|translate}}
+                            <a class="sign-link" href="#" ng-click="showRegister()">{{'SIGNUP' | translate}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="close" ng-click="$parent.closeModal()">
+                <span>×</span>
+            </a>
+        </div>
+    </div>
+</div>
+<!--en login-->
+
+<!--forgot password form-->
+<div class="modal modal-login fade" ng-class="{'in': $parent.forgotPasswordShown}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div>
+                <div>
+                    <div class="ud-app-loader ud-component--forgot-password--app ud-app-loaded">
+                        <div class="modal-content-wrapper loginbox-v4">
+                            <div class="loginbox-v4__header">{{'FORGOT_PASSWORD'|translate}}</div>
+                            <div class="loginbox-v4__content">
+                                <div>
+                                    <form name="forgotPasswordForm">
+                                        <alert-box ng-show="$parent.forgotPasswordShown"></alert-box>
+                                        <div class="form-group">
+                                            <label for="forgot_email" class="control-label sr-only">Email</label>
+                                            <input id="forgot_email" type="email" ng-model="email" ng-required="true" placeholder="Email" class="form-control">
+                                        </div>
+                                        <div class="submit-row text-center">
+                                            <button ng-disabled="!isForgotPasswordFormValid() || formProcessing" type="button" class="btn btn-primary" ng-click="sendEmail()">
+                                                <i class="fa fa-spinner fa-spin" ng-show="formProcessing"></i>
+                                                {{'RESET_PASSWORD'|translate}}
+                                            </button>
+                                            <span class="ml5 mr5">{{'OR'|translate|lowercase}}</span>
+                                            <a ng-click="showLogin()" data-toggle="modal" data-dismiss="modal">{{'LOGIN'|translate}}</a>
+                                        </div>
+                                        <div class="recaptcha-container">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="close" ng-click="$parent.closeModal()">
+                <span>×</span>
+            </a>
+        </div>
+    </div>
+</div>
+<!--end forgot password-->
+
+<!--dang ky form-->
+<div class="modal register-modal fade" ng-class="{'in': $parent.registerShown}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div>
+                <div>
+                    <div class="loginbox-v4 modal-content-wrapper js-signin-box ud-angular-loader">
+                        <div>
+                            <div></div>
+                        </div>
+                        <div class="loginbox-v4__header">
+                            {{'SIGNUP_AND_LEARN'|translate}}
+                        </div>
+                        <div class="loginbox-v4__content">
+                            <form id="signup-form" name="registerForm" class="signin-form dj">
+                                <alert-box ng-show="$parent.registerShown"></alert-box>
+                                <div class="manage-fields-wrapper">
+                                    <input type="hidden" name="locale" value="en_US" autocomplete="off" />
+                                    <div class="form-field-container  labeled" id="form-item-fullname">
+                                        <label class="control-label " for="id_fullname">{{'FULL_NAME'|translate}}</label>
+                                        <div id="tooltip-reference-fullname" class="tooltip-reference pos-r ">
+                                            <input class="textinput textInput form-control user-error" id="id_fullname" name="name" placeholder="{{'FULL_NAME'|translate}}"
+                                                ng-model="registerData.name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-field-container  labeled" id="form-item-email">
+                                        <label class="control-label " for="id_email">Email</label>
+                                        <div id="tooltip-reference-email" class="tooltip-reference pos-r ">
+                                            <input class="emailinput form-control" id="id_email" name="email" placeholder="E-mail" type="email" ng-model="registerData.email"
+                                                ng-required="true" ng-minlength="3" />
+                                            <div class="js-suggestion mt5 dn"></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-field-container labeled" id="form-item-password">
+                                        <label class="control-label" for="id_password">{{'PASSWORD'|translate}}</label>
+                                        <div id="tooltip-reference-password" class="tooltip-reference pos-r ">
+                                            <input class="textinput textInput form-control" id="id_password" name="password" placeholder="{{'PASSWORD'|translate}}" type="password"
+                                                ng-model="registerData.password" ng-required="true" ng-minlength="3">
+                                        </div>
+                                    </div>
+                                    <div class="form-field-container  labeled" id="form-item-subscribe_to_emails">
+                                        <div id="tooltip-reference-subscribe_to_emails" class="tooltip-reference pos-r ">
+                                            <div class="checkbox">
+                                                <label for="id_subscribe_to_emails">
+                                                    <input type="checkbox" name="subscribe_to_emails" id="id_subscribe_to_emails" />
+                                                    <span class="checkbox-label">
+                                                        {{'COURSE_RECOMMENDATION'|translate}}
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-field-container  labeled" id="form-item-signup">
+                                        <label class="control-label " for="id_signup">If you are a real human, you do not need to fill this field</label>
+                                        <div id="tooltip-reference-signup" class="tooltip-reference pos-r ">
+                                            <input class="hidden textinput textInput form-control" id="id_signup" name="signup" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <div class="submit-row">
+                                        <button type="submit" name="submit" class="btn btn-primary " ng-disabled="!isRegisterFormValid() || formProcessing" ng-click="register(registerData)">
+                                            <i class="fa fa-spinner fa-spin" ng-show="formProcessing"></i>
+                                            {{'SIGNUP'|translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="loginbox-v4__secondary-text">
+                                {{'BY_SIGNING_UP' | translate}}
+                                <a ui-sref="app.term.index" target="_blank">{{'TERM_OF_USE'| translate}}</a> {{'AND' | translate}}
+                                <a ui-sref="app.term.privacy" target="_blank">{{'PRIVACY_POLICY' | translate}}</a>.
+                            </div>
+                            <div class="loginbox-v4__separator"></div>
+                        </div>
+                        <div class="loginbox-v4__footer">
+                            {{'ALREADY_HAVE_ACCOUNT'| translate}}
+                            <a class="sign-link" href="#" ng-click="showLogin()">{{'LOGIN' | translate}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="close" ng-click="$parent.closeModal()">
+                <span>×</span>
+            </a>
+        </div>
+    </div>
+</div>
+<!--end dang ky-->

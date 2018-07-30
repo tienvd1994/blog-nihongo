@@ -1,0 +1,6 @@
+<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" class="with-icon mb0">
+    <div class="alert-title" ng-if="alert.title">{{ alert.title }}</div>
+    <span class="icon udi udi-check-circle" ng-if="alert.type == 'success' || alert.type == 'info'"></span>
+    <span class="icon udi udi-minus-circle" ng-if="alert.type == 'danger'"></span>
+    <div ng-repeat="message in alert.message track by $index" class="content">{{ message }}</div>
+</alert>

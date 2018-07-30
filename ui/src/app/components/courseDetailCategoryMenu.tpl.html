@@ -1,0 +1,33 @@
+<div class="c_link-bar c_link-bar--channel skin6">
+    <div class="p_channel-wrapper fx-jsb">
+        <div class="c_link-bar--channel__inner oh" id="target-channels-nav">
+            <div ng-repeat="category in $ctrl.categories | limitTo: 10">
+                <div ng-class="category.friendlyName === $ctrl.courseData.category.friendlyName ? 'c_link-bar__cat active' : 'c_link-bar__sub-cat'">
+                    <a ui-sref="app.category.index({friendlyName: '{{category.friendlyName}}'})">
+                        <span class="chan-icon">
+                            <span class="udi {{category.icon}}"></span>
+                        </span>
+                        <span class="chan-title">{{category.name}}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown c_link-bar--channel__dropdown" dropdown ng-if="$ctrl.categories.length > 10">
+            <button class="btn btn-tertiary" id="hierarchy-channel-dropdown-label" type="button" dropdown-toggle>
+                <i class="udi udi-overflow"></i>
+            </button>
+            <ul class="dropdown-menu ">
+                <li ng-repeat="categoryOverflow in $ctrl.categories | limitTo: 10 - $ctrl.categories.length">
+                    <a ui-sref="app.category.index({friendlyName: '{{categoryOverflow.friendlyName}}'})">
+                        <span class="chan-icon">
+                            <span class="udi {{categoryOverflow.icon}}"></span>
+                        </span>
+                        <span class="chan-title">
+                            <span class="chan-title">{{categoryOverflow.name}}</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
