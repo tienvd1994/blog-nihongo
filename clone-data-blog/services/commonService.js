@@ -25,6 +25,8 @@ function downloadFile(url, options) {
  * @param {String} url 
  */
 function getNameFileFromUrl(url) {
+    console.log(url);
+
     let name1 = url.split('/').slice(-1)[0];
     let indexOfName1 = name1.indexOf("?");
 
