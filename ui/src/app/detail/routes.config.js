@@ -1,16 +1,16 @@
 (function () {
     'use strict';
 
-    angular.module('ati.home')
+    angular.module('ati.detail')
         .config(function ($stateProvider) {
             $stateProvider
-                .state('app.home', {
+                .state('app.detail', {
                     // parent: 'anon',
-                    url: '/?page&redirectUrl',
+                    url: '/detail/:id',
                     views: {
                         'content@app': {
-                            controller: 'Home',
-                            templateUrl: 'home/home.tpl.html'
+                            controller: 'Detail',
+                            templateUrl: 'detail/detail.tpl.html'
                         },
                         'header@app': {
                             controller: 'HeaderController',

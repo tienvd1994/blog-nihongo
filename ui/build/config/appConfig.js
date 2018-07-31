@@ -55,9 +55,9 @@ module.exports = {
         ],
         css: [
             'src/styles/customvendor/**/*.css',
-            'src/styles/home/**/*.css',
             "bower_components/bootstrap/dist/css/bootstrap.css",
             "node_modules/metismenu/dist/metisMenu.css",
+            'src/styles/home/**/*.css',
         ],
         font: [
             'src/styles/home/fonts/*.*',
