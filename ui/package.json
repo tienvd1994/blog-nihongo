@@ -1,21 +1,21 @@
 {
-  "name": "ati-elearning-ui",
+  "name": "japanese-test-online",
   "version": "1.0.0",
-  "description": "User Interface for ATI Eleanring Project",
+  "description": "User Interface for japanese test online Project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/ati-elearning/ui.git"
+    "url": ""
   },
   "author": "Giang Coffee <giang.fet.hut@gmail.com> (https://viettut.com/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/ati-elearning/ui/issues"
+    "url": ""
   },
-  "homepage": "https://gitlab.com/ati-elearning/ui#README",
+  "homepage": "",
   "private": true,
   "devDependencies": {
     "grunt": "^0.4.5",

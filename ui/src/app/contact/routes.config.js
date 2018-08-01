@@ -8,8 +8,8 @@
                     url: '/contact',
                     views: {
                         'content@app': {
-                            controller: 'AboutController',
-                            templateUrl: 'about/about.tpl.html',
+                            controller: 'ContactController',
+                            templateUrl: 'contact/contact.tpl.html',
                         },
                         'header@app': {
                             controller: 'HeaderController',

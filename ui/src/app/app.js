@@ -2,7 +2,7 @@ angular.module('ati', [
     'ati.core',
     'ati.home',
     'ati.detail',
-    'app.about',
+    'ati.about',
     'ati.contact',
     'ati.errorPage'
 ])
