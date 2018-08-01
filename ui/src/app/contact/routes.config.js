@@ -4,7 +4,7 @@
     angular.module('ati.contact')
         .config(function ($stateProvider) {
             $stateProvider
-                .state('app.about', {
+                .state('app.contact', {
                     url: '/contact',
                     views: {
                         'content@app': {
