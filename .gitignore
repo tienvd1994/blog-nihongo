@@ -6,3 +6,5 @@
 /ui/package-lock.json
 /ui/build/temp
 /ui/build/targets
+/ui/build/config/userConfig.js
+/ui/build/config/appConfig.js

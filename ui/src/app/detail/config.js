@@ -3,5 +3,3 @@
 
     angular.module('ati.detail')
 })();
-
-
