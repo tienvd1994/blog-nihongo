@@ -2,6 +2,8 @@ angular.module('ati', [
     'ati.core',
     'ati.home',
     'ati.detail',
+    'app.about',
+    'ati.contact',
     'ati.errorPage'
 ])
     // .config(function (FacebookProvider) {

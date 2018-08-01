@@ -1,16 +1,15 @@
 (function () {
     'use strict';
 
-    angular.module('ati.home')
-        .config(["$stateProvider", function ($stateProvider) {
+    angular.module('ati.contact')
+        .config(function ($stateProvider) {
             $stateProvider
-                .state('app.home', {
-                    // parent: 'anon',
-                    url: '/?page&redirectUrl',
+                .state('app.about', {
+                    url: '/contact',
                     views: {
                         'content@app': {
-                            controller: 'Home',
-                            templateUrl: 'home/home.tpl.html'
+                            controller: 'AboutController',
+                            templateUrl: 'about/about.tpl.html',
                         },
                         'header@app': {
                             controller: 'HeaderController',
@@ -21,14 +20,10 @@
                             templateUrl: 'core/layout/footer.tpl.html'
                         }
                     },
-                    resolve: {
-
-                    },
                     data: {
                         allowAnonymous: true
                     }
                 })
-                ;
-        }])
-        ;
+            ;
+        });
 })();

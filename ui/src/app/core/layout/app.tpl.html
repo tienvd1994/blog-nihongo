@@ -14,44 +14,5 @@
 <div class="left side-menu" ui-view="header"></div>
 <!-- Left Sidebar End -->
 
-<div class="page-wrapper">
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="page-title">
-                        <div class="row">
-                            <div class="col-md-9 col-xs-12">
-                                <h2>
-                                    <span>News and Stories</span>
-                                </h2>
-
-                                <p class="subtitle text-muted">Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis
-                                    sem nibh id elit. Proin gravida nibh vel velit auctor Aenean sollicitudin, adipisicing
-                                    elit sed lorem quis bibendum auctor.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mt-5 pb-5">
-        <div class="container">
-
-            <div class="row">
-                <!-- Content-->
-                <div class="col-xl-8" ui-view="content">
-                </div>
-                <!-- Content end-->
-
-                <!-- Sidebar-->
-                <div class="col-xl-4" ui-view="footer"></div>
-                <!-- Sidebar end-->
-            </div>
-
-        </div>
-        <!-- end container -->
-    </section>
+<div class="page-wrapper" ui-view="content">
 </div>

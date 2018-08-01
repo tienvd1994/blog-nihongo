@@ -16,10 +16,10 @@
                             controller: 'HeaderController',
                             templateUrl: 'core/layout/header.tpl.html'
                         },
-                        // 'footer@app': {
-                        //     controller: 'FooterController',
-                        //     templateUrl: 'core/layout/footer.tpl.html'
-                        // }
+                        'footer@app': {
+                            controller: 'FooterController',
+                            templateUrl: 'core/layout/footer.tpl.html'
+                        }
                     },
                     resolve: {
 
