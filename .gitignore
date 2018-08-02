@@ -8,3 +8,6 @@
 /ui/build/targets
 /ui/build/config/userConfig.js
 /ui/build/config/appConfig.js
+/api/node_modules
+/api/logs
+/api/package-lock.json
