@@ -29,7 +29,7 @@ function list(req, res, next) {
  */
 
 function one(req, res, next) {
-    QuestionRepository.findById(req.params.logs_id)
+    QuestionRepository.findById(req.params.id)
         .then(function (log) {
             res.send(log);
             next();
