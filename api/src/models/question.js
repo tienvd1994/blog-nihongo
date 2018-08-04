@@ -8,19 +8,26 @@ const QuestionSchema = new mongoose.Schema(
     {
         title: {
             type: String,
+            required: true,
+            unique: true
+        },
+        friendlyName: {
+            type: String,
             required: true
+        },
+        content: {
+            type: String
         },
         category: {
             type: mongoose.Schema.Types.ObjectId
-        },
-        creator: {
-            type: String,
-            required: true,
         },
         image: {
             type: String
         },
         media: {
+            type: String
+        },
+        transcript: {
             type: String
         },
         type: {

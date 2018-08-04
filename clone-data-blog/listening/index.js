@@ -1,7 +1,7 @@
 const request = require('request');
 const cheerio = require('cheerio');
 const URL = require('url-parse');
-const commonService = require('./services/commonService');
+const commonService = require('./../services/commonService');
 const _ = require('lodash');
 
 function accessWebsite(pageToVisit) {
@@ -23,7 +23,29 @@ function accessWebsite(pageToVisit) {
 
                 if (text.indexOf("listening test") !== -1) {
                     let cateName = (text.trim().replace(/\s/g, "_")).toLocaleLowerCase();
-                    getDataListeningTest(url, cateName);
+                    
+                request.post({
+                    url: "http://localhost:3000/api/v1/categories",
+                    headers: {
+                       "Content-Type": "application/json"
+                    },
+                    body: {
+                        "name": cateName,
+                       "friendlyName": commonService.getUrlFriendlyString(cateName)
+
+                    },
+                    json:true
+               }, function(error, response, body){
+                if(error){
+                    console.log(error);
+
+                    return;
+                }else{
+                    let categoryId = body._id;
+                    console.log(categoryId);
+                    getDataListeningTest(url, cateName, categoryId);
+                }
+               });
                 }
             });
         }
@@ -35,7 +57,7 @@ function accessWebsite(pageToVisit) {
 // let urlTest2 = "http://japanesetest4you.com/category/jlpt-n5/jlpt-n5-listening-test/";
 // getDataListeningTest(urlTest1, cateName);
 
-function getDataListeningTest(url, categoryName) {
+function getDataListeningTest(url, categoryName,categoryId) {
     request(url, function (error, response, body) {
         if (error) {
             console.log("Error: " + error);
@@ -46,8 +68,9 @@ function getDataListeningTest(url, categoryName) {
 
         // access to detail page.
         $('#content .post > .title > a').each(function (index, element) {
-            let subCateName = ($(element).text().split("–").slice(-1)[0]).trim().replace(/\s/g, "_").toLocaleLowerCase();
-            accessDetailOfListeningTest($(element).attr('href'), categoryName, subCateName);
+            let questionName = $(element).text();
+            let subCate = (questionName.split("–").slice(-1)[0]).trim().replace(/\s/g, "_").toLocaleLowerCase();
+            accessDetailOfListeningTest($(element).attr('href'), categoryName, subCate, categoryId, questionName);
         });
 
         // check has pagition.
@@ -67,7 +90,7 @@ function getDataListeningTest(url, categoryName) {
                 if (currentPage < maxPage) {
                     for (let i = (currentPage + 1); i <= maxPage; i++) {
                         console.log(url + "page/" + i + '/');
-                        getDataListeningTest(url + "page/" + i + '/', categoryName);
+                        getDataListeningTest(url + "page/" + i + '/', categoryName, categoryId);
                     }
                 }
             }
@@ -78,7 +101,7 @@ function getDataListeningTest(url, categoryName) {
                     if (parseInt(page) > parseInt(currentPage)) {
                         let url = $(element).attr('href');
                         console.log(url);
-                        getDataListeningTest(url, categoryName);
+                        getDataListeningTest(url, categoryName, categoryId);
                     }
                 });
             }
@@ -93,9 +116,9 @@ function getDataListeningTest(url, categoryName) {
  * Access to detail page.
  * @param {String} url 
  * @param {String} categoryName 
- * @param {String} subCateName Tên bài. 
+ * @param {String} subCate Tên bài. 
  */
-function accessDetailOfListeningTest(url, categoryName, subCateName) {
+function accessDetailOfListeningTest(url, categoryName, subCate, categoryId,questionName) {
     request(url, function (error, response, body) {
         if (error) {
             console.log("Error: " + error);
@@ -107,7 +130,7 @@ function accessDetailOfListeningTest(url, categoryName, subCateName) {
         let formListening = $("#content .entry form");
 
         // create folder.
-        let dir = './files/' + categoryName + "/" + subCateName;
+        let dir = './files/' + categoryName + "/" + subCate;
         commonService.mkdirSyncRecursive(dir);
 
         formListening.find('audio.wp-audio-shortcode').each(function (index, element) {
@@ -116,6 +139,29 @@ function accessDetailOfListeningTest(url, categoryName, subCateName) {
             commonService.downloadFile(urlAudio, {
                 directory: dir + "/question_" + (index + 1) + '/audio',
                 filename: commonService.getNameFileFromUrl(urlAudio)
+            }, function (path) {
+                request.post({
+                    url: "http://localhost:3000/api/v1/questions/createOrUpdate",
+                    headers: {
+                       "Content-Type": "application/json"
+                    },
+                    body: {
+                        "title": questionName,
+                        "friendlyName": commonService.getUrlFriendlyString(questionName),
+                        "category": categoryId,
+                        "media": path,
+                        "type": 1
+                    },
+                    json:true
+               }, function(error, response, body){
+                if(error){
+                    console.log(error);
+
+                    return;
+                }else{
+                    console.log(body);
+                }
+               });
             });
 
             let urlImage = "";
@@ -132,6 +178,29 @@ function accessDetailOfListeningTest(url, categoryName, subCateName) {
                 commonService.downloadFile(urlImage, {
                     directory: dir + "/question_" + (index + 1) + '/image',
                     filename: commonService.getNameFileFromUrl(urlImage)
+                }, function (path) {
+                    request.post({
+                        url: "http://localhost:3000/api/v1/questions/createOrUpdate",
+                        headers: {
+                           "Content-Type": "application/json"
+                        },
+                        body: {
+                            "title": questionName,
+                            "friendlyName": commonService.getUrlFriendlyString(questionName),
+                            "category": categoryId,
+                            "image": path,
+                            "type": 1
+                        },
+                        json:true
+                   }, function(error, response, body){
+                    if(error){
+                        console.log(error);
+    
+                        return;
+                    }else{
+                        console.log(body);
+                    }
+                   });
                 });
             }
         });
@@ -142,11 +211,13 @@ function accessDetailOfListeningTest(url, categoryName, subCateName) {
         commonService.downloadFile(urlTranscript, {
             directory: dir,
             filename: commonService.getNameFileFromUrl(urlTranscript)
+        }, function (path) {
+            console.log(path);
         });
     });
 }
 
-exports.module = {
+module.exports = {
     accessWebsite: accessWebsite,
     getDataListeningTest: getDataListeningTest,
     accessDetailOfListeningTest: accessDetailOfListeningTest

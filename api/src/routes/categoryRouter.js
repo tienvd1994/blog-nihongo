@@ -1,0 +1,20 @@
+"use strict";
+
+const CategoryController = require('../controllers/categoryController');
+
+module.exports = function (server) {
+
+    /**
+     * LIST
+     */
+    server.get('/api/v1/categories', CategoryController.list);
+
+    /**
+     * GET
+     */
+    server.get('/api/v1/categories/:id', CategoryController.one);
+
+    server.post('/api/v1/categories', CategoryController.create);
+
+    server.put('/api/v1/categories/:id', CategoryController.update);
+};

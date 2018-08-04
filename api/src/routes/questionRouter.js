@@ -17,4 +17,6 @@ module.exports = function (server) {
     server.post('/api/v1/questions', QuestionController.create);
 
     server.put('/api/v1/questions/:id', QuestionController.update);
+
+    server.post('/api/v1/questions/createOrUpdate', QuestionController.createOrUpdate);
 };

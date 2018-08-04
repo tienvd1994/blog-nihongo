@@ -19,6 +19,7 @@ const filterUnauthorizedRequest = require('./src/middlewares/filterUnauthorizedR
 /** --------------------------START ROUTERS -----------------------------------------*/
 
 const questionRouter = require('./src/routes/questionRouter');
+const categoryRouter = require('./src/routes/categoryRouter');
 
 
 /** ---------------------------END ROUTERS -----------------------------------------*/
@@ -94,6 +95,7 @@ server.listen(config.port, () => {
 
     db.once('open', () => {
         questionRouter(server);
+        categoryRouter(server);
         console.log(`Server is listening on port ${config.port}`);
     })
 });

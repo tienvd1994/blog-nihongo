@@ -29,6 +29,8 @@ module.exports = {
     },
     public_url: [
         '/api/v1/questions',
+        '/api/v1/categories',
+        '/api/v1/questions/createOrUpdate'
     ],
     non_json_route: [
         '/api/v1/uploadFiles',
