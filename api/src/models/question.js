@@ -21,18 +21,16 @@ const QuestionSchema = new mongoose.Schema(
         category: {
             type: mongoose.Schema.Types.ObjectId
         },
-        image: {
-            type: String
+        type: {
+            type: Number
         },
-        media: {
-            type: String
+        answers: {
+            type: mongoose.Schema.Types.Mixed,
+            required: true
         },
         transcript: {
             type: String
         },
-        type: {
-            type: Number
-        }
     },
     { minimize: false }
 );

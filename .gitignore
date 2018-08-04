@@ -1,6 +1,7 @@
 /clone-data-blog/package-lock.json
 /clone-data-blog/node_modules
 /clone-data-blog/files
+/api/files
 /ui/node_modules
 /ui/bower_components
 /ui/package-lock.json

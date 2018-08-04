@@ -1,8 +1,22 @@
+const mongoose = require('mongoose');
+const config = require('../../config');
 const request = require('request');
 const cheerio = require('cheerio');
 const URL = require('url-parse');
 const commonService = require('./../services/commonService');
 const _ = require('lodash');
+const QuestionRepository = require('./../../src/repository/questionRepository');
+const categoryRepository = require('./../../src/repository/categoryRepository');
+
+// establish connection to mongodb
+mongoose.Promise = global.Promise;
+mongoose.connect(config.db.uri, { auth: config.db.auth });
+const db = mongoose.connection;
+
+db.on('error', (err) => {
+    console.error(err);
+    process.exit(1);
+});
 
 function accessWebsite(pageToVisit) {
     request(pageToVisit, function (error, response, body) {
@@ -23,29 +37,20 @@ function accessWebsite(pageToVisit) {
 
                 if (text.indexOf("listening test") !== -1) {
                     let cateName = (text.trim().replace(/\s/g, "_")).toLocaleLowerCase();
-                    getDataListeningTest(url, cateName, "5b655105864688410888de37");
 
-                    // request.post({
-                    //     url: "http://localhost:3000/api/v1/categories",
-                    //     headers: {
-                    //         "Content-Type": "application/json"
-                    //     },
-                    //     body: {
-                    //         "name": cateName,
-                    //         "friendlyName": commonService.getUrlFriendlyString(cateName)
+                    categoryRepository.save({
+                        "name": cateName,
+                        "friendlyName": commonService.getUrlFriendlyString(cateName)
 
-                    //     },
-                    //     json: true
-                    // }, function (error, response, body) {
-                    //     if (error) {
-                    //         console.log(error);
-
-                    //         return;
-                    //     } else {
-                    //         let categoryId = body._id;
-                    //         getDataListeningTest(url, cateName, categoryId);
-                    //     }
-                    // });
+                    })
+                        .then(function (rs) {
+                            console.log("created category");
+                            getDataListeningTest(url, cateName, rs._id);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                        .done();
                 }
             });
         }
@@ -109,6 +114,16 @@ function getDataListeningTest(url, categoryName, categoryId) {
  * @param {String} subCate Tên bài. 
  */
 function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, questionName) {
+    // establish connection to mongodb
+    // mongoose.Promise = global.Promise;
+    // mongoose.connect(config.db.uri, { auth: config.db.auth });
+    // const db = mongoose.connection;
+
+    // db.on('error', (err) => {
+    //     console.error(err);
+    //     process.exit(1);
+    // });
+
     request(url, function (error, response, body) {
         if (error) {
             console.log("Error: " + error);
@@ -122,6 +137,7 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, que
         // create folder.
         let dir = './files/' + categoryName + "/" + subCate;
         commonService.mkdirSyncRecursive(dir);
+        let answers = [];
 
         formListening.find('audio.wp-audio-shortcode').each(function (index, element) {
             let urlAudio = $(element).find('source').attr('src');
@@ -154,41 +170,90 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, que
                 });
             }
 
-            if (imagePath || mediaPath) {
-                request.post({
-                    url: "http://localhost:3000/api/v1/questions/createOrUpdate",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: {
-                        "title": questionName,
-                        "friendlyName": commonService.getUrlFriendlyString(questionName),
-                        "category": categoryId,
-                        "media": mediaPath,
-                        "image": imagePath,
-                        "type": 1
-                    },
-                    json: true
-                }, function (error, response, body) {
-                    if (error) {
-                        console.log(error);
+            let data = {
+                "media": mediaPath,
+                "image": imagePath
+            };
 
-                        return;
-                    } else {
-                        console.log(body);
-                    }
-                });
-            }
+            answers.push(data);
+
+            // setTimeout(function () {
+            //     QuestionRepository.findByFriendlyName(data.friendlyName)
+            // .then(function (rs) {
+            //     if (!rs) {
+            //         let questionData = {
+            //             title: data.title,
+            //             friendlyName: data.friendlyName,
+            //             category: data.category,
+            //             type: data.type
+            //         }
+
+            //         QuestionRepository.save(questionData)
+            //             .then(function (question) {
+            //                 let answerData = {
+            //                     question: question._id,
+            //                     media: data.media,
+            //                     image: data.image
+            //                 }
+
+            //                 AnswerRepository.save(answerData)
+            //                     .then(function (answer) {
+            //                         // console.log(question);
+            //                     })
+            //                     .catch(function (error) {
+            //                         // console.log(error);
+            //                     })
+            //                     .done();
+            //             })
+            //             .catch(function (error) {
+            //                 // console.log(error);
+            //             })
+            //             .done();
+            //     } else {
+            //         let answerData = {
+            //             question: rs._id,
+            //             media: data.media,
+            //             image: data.image
+            //         }
+
+            //         AnswerRepository.save(answerData)
+            //             .then(function (answer) {
+            //                 // console.log(rs);
+            //             })
+            //             .catch(function (error) {
+            //                 // console.log(error);
+            //             })
+            //             .done();
+            //     }
+            // })
+            // .catch(function (error) {
+            //     // console.log(error);
+            // })
+            // }, 2000);
         });
 
         // download transcript.
         let urlTranscript = $("a[title|='View transcript']").attr('href');
+        let transcriptUrl = "";
 
         commonService.downloadFile(urlTranscript, {
             directory: dir,
             filename: commonService.getNameFileFromUrl(urlTranscript)
         }, function (path) {
+            transcriptUrl = path;
         });
+
+        // console.log(questions);
+        let questions = {
+            "title": questionName,
+            "friendlyName": commonService.getUrlFriendlyString(questionName),
+            "category": categoryId,
+            "type": 1,
+            "answers": answers,
+            "transcript": transcriptUrl
+        }
+
+        QuestionRepository.creates(questions);
     });
 }
 

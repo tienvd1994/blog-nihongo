@@ -1,6 +1,7 @@
 "use strict";
 
 const QuestionRepository = require('../repository/questionRepository');
+const AnswerRepository = require('../repository/answerRepository');
 
 /**
  *
@@ -75,51 +76,9 @@ function update(req, res, next) {
         .done();
 }
 
-function createOrUpdate(req, res, next) {
-    let data = req.body || {};
-
-    QuestionRepository.findByFriendlyName(data.friendlyName)
-        .then(function (question) {
-            if (!question) {
-                QuestionRepository.save(data)
-                    .then(function (log) {
-                        res.send(log);
-                        next();
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        return next(error);
-                    })
-                    .done();
-            } else {
-                let dataUpdate = {
-                    media: data.media || question.media,
-                    image: data.image || question.image
-                }
-
-                QuestionRepository.update(question._id, dataUpdate)
-                    .then(function (log) {
-                        res.send(log);
-                        next();
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        return next(error);
-                    })
-                    .done();
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-            return next(error);
-        })
-        .done();
-}
-
 module.exports = {
     one: one,
     list: list,
     create: create,
-    update: update,
-    createOrUpdate: createOrUpdate
+    update: update
 };

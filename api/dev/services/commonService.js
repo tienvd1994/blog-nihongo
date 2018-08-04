@@ -30,8 +30,7 @@ function downloadFile(url, options, callback) {
  * @param {String} url 
  */
 function getNameFileFromUrl(url) {
-    console.log(url);
-
+    // console.log(url);
     if (!url) {
         return "";
     }
