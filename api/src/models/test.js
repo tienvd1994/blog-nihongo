@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const mongooseStringQuery = require('mongoose-string-query');
 const timestamps = require('mongoose-timestamp');
 
-const QuestionSchema = new mongoose.Schema(
+const TestSchema = new mongoose.Schema(
     {
         title: {
             type: String,
@@ -24,7 +24,7 @@ const QuestionSchema = new mongoose.Schema(
         type: {
             type: Number
         },
-        answers: {
+        questions: {
             type: mongoose.Schema.Types.Mixed,
             required: true
         },
@@ -35,9 +35,9 @@ const QuestionSchema = new mongoose.Schema(
     { minimize: false }
 );
 
-QuestionSchema.plugin(timestamps);
-QuestionSchema.plugin(mongooseStringQuery);
+TestSchema.plugin(timestamps);
+TestSchema.plugin(mongooseStringQuery);
 
-const Question = mongoose.model('Question', QuestionSchema);
-module.exports = Question;
+const Test = mongoose.model('Test', TestSchema);
+module.exports = Test;
 

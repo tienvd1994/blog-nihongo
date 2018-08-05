@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const URL = require('url-parse');
 const commonService = require('./../services/commonService');
 const _ = require('lodash');
-const QuestionRepository = require('./../../src/repository/questionRepository');
+const testRepository = require('./../../src/repository/testRepository');
 const categoryRepository = require('./../../src/repository/categoryRepository');
 
 // establish connection to mongodb
@@ -113,16 +113,7 @@ function getDataListeningTest(url, categoryName, categoryId) {
  * @param {String} categoryName 
  * @param {String} subCate Tên bài. 
  */
-function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, questionName) {
-    // establish connection to mongodb
-    // mongoose.Promise = global.Promise;
-    // mongoose.connect(config.db.uri, { auth: config.db.auth });
-    // const db = mongoose.connection;
-
-    // db.on('error', (err) => {
-    //     console.error(err);
-    //     process.exit(1);
-    // });
+function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, testName) {
 
     request(url, function (error, response, body) {
         if (error) {
@@ -131,13 +122,14 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, que
             return;
         }
 
+        console.log(testName);
         let $ = cheerio.load(body);
         let formListening = $("#content .entry form");
 
         // create folder.
         let dir = './files/' + categoryName + "/" + subCate;
         commonService.mkdirSyncRecursive(dir);
-        let answers = [];
+        let questions = [];
 
         formListening.find('audio.wp-audio-shortcode').each(function (index, element) {
             let urlAudio = $(element).find('source').attr('src');
@@ -152,10 +144,10 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, que
             });
 
             let urlImage = "";
-            let elementHasDiv = $(element).next('p').next('div');
+            let elementImage = $(element).next('p').next('div');
 
-            if (elementHasDiv.text()) {
-                urlImage = elementHasDiv.next('p').find('img').attr('src');
+            if (elementImage.text()) {
+                urlImage = elementImage.next('p').find('img').attr('src');
             }
             else {
                 urlImage = $(element).next('p').next('p').find('img').attr('src');
@@ -175,61 +167,28 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, que
                 "image": imagePath
             };
 
-            answers.push(data);
+            let $p = $(element).next('p');
+            $p.find('strong').empty();
+            let answerString = $p.text();
+            let answers = [];
 
-            // setTimeout(function () {
-            //     QuestionRepository.findByFriendlyName(data.friendlyName)
-            // .then(function (rs) {
-            //     if (!rs) {
-            //         let questionData = {
-            //             title: data.title,
-            //             friendlyName: data.friendlyName,
-            //             category: data.category,
-            //             type: data.type
-            //         }
+            if (answerString) {
+                let answerArray = answerString.trim().replace(/\n|\r/g, "").split(" ");
 
-            //         QuestionRepository.save(questionData)
-            //             .then(function (question) {
-            //                 let answerData = {
-            //                     question: question._id,
-            //                     media: data.media,
-            //                     image: data.image
-            //                 }
+                if (answerArray.length > 0) {
+                    answerArray.forEach(item => {
+                        if (item) {
+                            answers.push({
+                                content: item,
+                                isCorrect: false
+                            });
+                        }
+                    });
+                }
+            }
 
-            //                 AnswerRepository.save(answerData)
-            //                     .then(function (answer) {
-            //                         // console.log(question);
-            //                     })
-            //                     .catch(function (error) {
-            //                         // console.log(error);
-            //                     })
-            //                     .done();
-            //             })
-            //             .catch(function (error) {
-            //                 // console.log(error);
-            //             })
-            //             .done();
-            //     } else {
-            //         let answerData = {
-            //             question: rs._id,
-            //             media: data.media,
-            //             image: data.image
-            //         }
-
-            //         AnswerRepository.save(answerData)
-            //             .then(function (answer) {
-            //                 // console.log(rs);
-            //             })
-            //             .catch(function (error) {
-            //                 // console.log(error);
-            //             })
-            //             .done();
-            //     }
-            // })
-            // .catch(function (error) {
-            //     // console.log(error);
-            // })
-            // }, 2000);
+            data.answers = answers;
+            questions.push(data);
         });
 
         // download transcript.
@@ -243,17 +202,16 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, que
             transcriptUrl = path;
         });
 
-        // console.log(questions);
-        let questions = {
-            "title": questionName,
-            "friendlyName": commonService.getUrlFriendlyString(questionName),
+        let test = {
+            "title": testName,
+            "friendlyName": commonService.getUrlFriendlyString(testName),
             "category": categoryId,
             "type": 1,
-            "answers": answers,
+            "questions": questions,
             "transcript": transcriptUrl
         }
 
-        QuestionRepository.creates(questions);
+        testRepository.creates(test);
     });
 }
 

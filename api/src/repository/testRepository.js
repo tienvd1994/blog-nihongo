@@ -1,10 +1,9 @@
 "use strict";
 
-const Question = require('../models/question');
+const Test = require('../models/test');
 const Q = require('q');
 const errors = require('restify-errors');
 const log = require('../../logger').log;
-const AnswerRepository = require('./answerRepository');
 
 /**
  * 
@@ -14,7 +13,7 @@ const AnswerRepository = require('./answerRepository');
 function findById(id) {
     const deferred = Q.defer();
 
-    Question.findOne({ _id: id }, function (err, actionLog) {
+    Test.findOne({ _id: id }, function (err, actionLog) {
         if (err) {
             log.error(err);
             deferred.reject(new errors.InvalidContentError(err.message))
@@ -38,7 +37,7 @@ function findById(id) {
 function getList(params) {
     const deferred = Q.defer();
 
-    Question.apiQuery(params, function (error, logs) {
+    Test.apiQuery(params, function (error, logs) {
         if (error) {
             log.error(error);
             deferred.reject(
@@ -60,7 +59,7 @@ function getList(params) {
  */
 function save(data) {
     const deferred = Q.defer();
-    let question = new Question(data);
+    let question = new Test(data);
     question.save(function (err, question) {
         if (err) {
             log.error(err);
@@ -81,7 +80,7 @@ function update(id, data) {
 
     data = _.omit(data, ['createdAt', 'updatedAt', '_id', '__v']);
 
-    Question.update({ _id: id }, data, function (error, question) {
+    Test.update({ _id: id }, data, function (error, question) {
         if (error) {
             deferred.reject(new errors.InvalidContentError(error.message));
         } else {
@@ -95,7 +94,7 @@ function update(id, data) {
 function findByFriendlyName(friendlyName) {
     const deferred = Q.defer();
 
-    Question.findOne({ friendlyName: friendlyName }, function (err, result) {
+    Test.findOne({ friendlyName: friendlyName }, function (err, result) {
         if (err) {
             log.error(err);
             // console.log(err);
@@ -109,8 +108,8 @@ function findByFriendlyName(friendlyName) {
 }
 
 function creates(data) {
-    let question = new Question(data);
-    question.save(function (err, question) {
+    let test = new Test(data);
+    test.save(function (err, question) {
         if (err) {
             console.log(err);
         } else {

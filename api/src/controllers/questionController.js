@@ -1,6 +1,6 @@
 "use strict";
 
-const QuestionRepository = require('../repository/questionRepository');
+const QuestionRepository = require('../repository/testRepository');
 const AnswerRepository = require('../repository/answerRepository');
 
 /**
