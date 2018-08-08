@@ -12,3 +12,4 @@
 /api/node_modules
 /api/logs
 /api/package-lock.json
+api/config.js

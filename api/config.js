@@ -2,7 +2,7 @@ module.exports = {
     domain: 'http://localhost:3000/',
     frontend_domain: 'http://localhost:9001/',
     name: 'blog-nihongo',
-    root_dir: 'E:\\Works\\Projects\\Elearning\\rest-api\\',
+    root_dir: '/home/tienvd/my-projects/blog-nihongo/api',
     env: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 3000,
     // base_url: process.env.BASE_URL || 'http://localhost:3000',
@@ -28,8 +28,9 @@ module.exports = {
         hash_algorithm: 'RS256'
     },
     public_url: [
-        '/api/v1/tests',
-        '/api/v1/categories'
+        /^\/api\/v1\/tests/,
+        /^\/api\/v1\/categories/,
+        /\/files\/?.*/,
     ],
     non_json_route: [
         '/api/v1/uploadFiles',

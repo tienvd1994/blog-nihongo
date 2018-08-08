@@ -14,6 +14,9 @@ const CategorySchema = new mongoose.Schema(
         friendlyName: {
             type: String,
             required: true
+        },
+        totalTest: {
+            type: Number
         }
     },
     { minimize: false }

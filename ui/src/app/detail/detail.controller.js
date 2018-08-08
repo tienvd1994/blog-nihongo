@@ -5,6 +5,7 @@
         .controller('Detail', Detail)
         ;
 
-    function Detail() {
+    function Detail($scope, test) {
+        $scope.test = test;
     }
 })();

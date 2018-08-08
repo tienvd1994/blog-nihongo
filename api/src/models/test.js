@@ -19,7 +19,7 @@ const TestSchema = new mongoose.Schema(
             type: String
         },
         category: {
-            type: mongoose.Schema.Types.ObjectId
+            type: mongoose.Schema.Types.Mixed
         },
         type: {
             type: Number

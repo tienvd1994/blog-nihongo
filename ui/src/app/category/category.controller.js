@@ -5,6 +5,7 @@
         .controller('Category', Category)
         ;
 
-    function Category() {
+    function Category($scope, tests) {
+        $scope.tests = tests;
     }
 })();

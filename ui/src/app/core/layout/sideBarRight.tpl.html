@@ -52,11 +52,11 @@
     </aside>
 
     <!-- Categories widget-->
-    <aside class="widget widget_categories">
+    <aside class="widget widget_categories" ng-if="categories.length > 0">
         <div class="widget-title">Categories</div>
         <ul>
             <li ng-repeat="category in categories">
-                <a ui-sref="app.category({friendlyName: friendlyName})">{{category.name}}</a> (40)
+                <a ui-sref="app.category({friendlyName: category.friendlyName})">{{category.name}}</a> ({{category.totalTest || 0}})
             </li>
         </ul>
     </aside>
@@ -100,7 +100,7 @@
             </li>
         </ul>
     </aside>
-    
+
     <!-- Archives widget-->
     <aside class="widget">
         <div class="widget-title">Archives</div>

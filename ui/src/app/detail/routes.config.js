@@ -5,8 +5,7 @@
         .config(function ($stateProvider) {
             $stateProvider
                 .state('app.detail', {
-                    // parent: 'anon',
-                    url: '/detail/:id',
+                    url: '/:friendlyName',
                     views: {
                         'content@app': {
                             controller: 'Detail',
@@ -15,10 +14,16 @@
                         'header@app': {
                             controller: 'HeaderController',
                             templateUrl: 'core/layout/header.tpl.html'
+                        },
+                        'sideBarRight@app.detail': {
+                            controller: 'SideBarRightController',
+                            templateUrl: 'core/layout/sideBarRight.tpl.html'
                         }
                     },
                     resolve: {
-
+                        test: function ($stateParams, TestManager) {
+                            return TestManager.one($stateParams.friendlyName).get();
+                        }
                     },
                     data: {
                         allowAnonymous: true

@@ -26,3 +26,11 @@
 .btn-outline-custom:active,.show>.btn-outline-custom.dropdown-toggle,.btn-outline-custom{
     border-color: #0db3e3;
 }
+
+.embed-responsive audio{
+    width: 100%;
+}
+
+.bold{
+    font-weight: bold;
+}

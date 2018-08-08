@@ -70,6 +70,10 @@ server.get(/\/xdomain\/?.*/, restify.plugins.serveStatic({
     default: '/index.html'
 }));
 
+server.get(/\/files\/?.*/, restify.plugins.serveStatic({
+    directory: __basedir,
+    default: '/index.html'
+}));
 
 server.use(filterJsonRequest);
 /** -----------------------------END MIDDLEWARE -----------------------------------*/

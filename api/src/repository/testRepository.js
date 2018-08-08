@@ -5,6 +5,7 @@ const Q = require('q');
 const errors = require('restify-errors');
 const log = require('../../logger').log;
 const ObjectId = require('mongoose').Types.ObjectId;
+const TestSerialzer = require('./../serializers/test');
 
 /**
  * 
@@ -13,8 +14,15 @@ const ObjectId = require('mongoose').Types.ObjectId;
  */
 function findById(id) {
     const deferred = Q.defer();
+    let condition = {};
 
-    Test.findOne({ _id: id }, function (err, actionLog) {
+    if (ObjectId.isValid(id)) {
+        condition = { _id: id };
+    } else {
+        condition = { friendlyName: id };
+    }
+
+    Test.findOne(condition, function (err, actionLog) {
         if (err) {
             log.error(err);
             deferred.reject(new errors.InvalidContentError(err.message))
@@ -123,15 +131,36 @@ function creates(data) {
 function findByCategory(category) {
     const deferred = Q.defer();
 
-    Test.findOne({ category: ObjectId(ObjectId) }, function (err, result) {
-        if (err) {
-            log.error(err);
-            console.log(err);
-            deferred.reject(new errors.InvalidContentError(err.message))
-        } else {
-            deferred.resolve(result);
+    Test.aggregate([
+        { "$match": { "category.friendlyName": category } },
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category.id",
+                foreignField: "_id",
+                as: "categories"
+            }
+        },
+        { $unwind: "$categories" },
+        {
+            $project: {
+                _id: 1,
+                title: 1,
+                friendlyName: 1,
+                createdAt: 1,
+                categoryName: "$categories.name"
+            }
         }
-    });
+    ])
+        .exec(function (err, result) {
+            if (err) {
+                log.error(err);
+                console.log(err);
+                deferred.reject(new errors.InvalidContentError(err.message))
+            } else {
+                deferred.resolve(result);
+            }
+        });
 
     return deferred.promise;
 }

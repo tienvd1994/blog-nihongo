@@ -1,6 +1,7 @@
 "use strict";
 
 const CategoryController = require('../controllers/categoryController');
+const TestController = require('../controllers/testController');
 
 module.exports = function (server) {
 
@@ -17,4 +18,6 @@ module.exports = function (server) {
     server.post('/api/v1/categories', CategoryController.create);
 
     server.put('/api/v1/categories/:id', CategoryController.update);
+
+    server.get('/api/v1/categories/:category_friendlyName/tests', TestController.getByCategory);
 };

@@ -122,7 +122,7 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, tes
             return;
         }
 
-        console.log(testName);
+        // console.log(testName);
         let $ = cheerio.load(body);
         let formListening = $("#content .entry form");
 
@@ -205,7 +205,10 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, tes
         let test = {
             "title": testName,
             "friendlyName": commonService.getUrlFriendlyString(testName),
-            "category": categoryId,
+            "category": {
+                id: categoryId,
+                friendlyName: commonService.getUrlFriendlyString(categoryName)
+            },
             "type": 1,
             "questions": questions,
             "transcript": transcriptUrl
