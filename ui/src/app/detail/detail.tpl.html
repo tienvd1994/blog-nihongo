@@ -16,86 +16,37 @@
                                 <i class="mdi mdi-calendar"></i> {{test.createdAt | date: 'dd/MM/yyyy'}}</li>
                             <li>
                                 <i class="mdi mdi-tag-text-outline"></i>
-                                <a ui-sref="app.category({friendlyName: category.friendlyName})">{{test.categoryName}}</a>
+                                <a ui-sref="app.category({friendlyName: category.friendlyName})">{{test.category.friendlyName}}</a>
                             </li>
                         </ul>
                     </div>
 
                     <div class="post-preview">
-                        <div class="embed-responsive">
-                            <p class="bold">Question 1</p>
-                            <audio controls>
-                                <source src="vincent.mp3" type="audio/mpeg" />
+                        <div class="embed-responsive" ng-repeat="question in test.questions">
+                            <p class="bold">Question {{$index + 1}}</p>
+                            <audio controls ng-if="question.media">
+                                <source ng-src="http://localhost:3000/{{question.media}}?={{$index+1}}" type="audio/mpeg" />
                             </audio>
-                            <p>
-                                <img src="http://localhost:3000/files/jlpt_n5_listening_test/listening_exercise_15/question_1/image/2002_04_listen_quiz2.gif">
+                            <p ng-if="question.image">
+                                <img ng-src="http://localhost:3000/{{question.image}}">
                             </p>
-                            <p>
+                            <p ng-if="question.answers && question.answers.length > 0">
+                                <span ng-repeat="answer in question.answers">
+                                    <input type="radio" value="{{$index + 1}}"> {{answer.content}}
+                                    <br />
+                                </span>
+                            </p>
+                            <p ng-if="question.answers.length === 0">
                                 <input type="radio" value="1"> 1
                                 <br />
+                                <input type="radio" value="2"> 2
+                                <br />
+                                <input type="radio" value="3"> 3
+                                <br />
+                                <input type="radio" value="4"> 4
                             </p>
                         </div>
                     </div>
-
-                    <div class="blog-detail-description">
-                        <div class="mt-5 text-center">
-                            <h5 class="page-title-alt">
-                                <span>You Might Also Like</span>
-                            </h5>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <article class="related-post">
-                                    <div class="post-preview">
-                                        <a href="blog-single.html">
-                                            <img src="images/blog/blog-2.jpg" alt="" class="img-fluid rounded">
-                                        </a>
-                                    </div>
-
-                                    <div class="post-header">
-                                        <h6>
-                                            <a href="single-post2.html" title="">15 Best Healthy and Easy Salad Recipes</a>
-                                        </h6>
-                                        <p class="post-date">August 12, 2017</p>
-                                    </div>
-                                </article>
-                            </div>
-                            <div class="col-sm-4">
-                                <article class="related-post">
-                                    <div class="post-preview">
-                                        <a href="blog-single.html">
-                                            <img src="images/blog/blog-3.jpg" alt="" class="img-fluid rounded">
-                                        </a>
-                                    </div>
-
-                                    <div class="post-header">
-                                        <h6>
-                                            <a href="single-post2.html" title="">The planet doesn’t need saving. We do.</a>
-                                        </h6>
-                                        <p class="post-date">August 17, 2017</p>
-                                    </div>
-                                </article>
-                            </div>
-                            <div class="col-sm-4">
-                                <article class="related-post">
-                                    <div class="post-preview">
-                                        <a href="blog-single.html">
-                                            <img src="images/blog/blog-4.jpg" alt="" class="img-fluid rounded">
-                                        </a>
-                                    </div>
-
-                                    <div class="post-header">
-                                        <h6>
-                                            <a href="single-post2.html" title="">Modern City With Amazing Dark Blue Sea</a>
-                                        </h6>
-                                        <p class="post-date">August 20, 2017</p>
-                                    </div>
-                                </article>
-                            </div>
-                        </div>
-                    </div>
-
                 </article>
                 <!-- Post end-->
 

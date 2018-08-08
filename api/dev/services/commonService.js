@@ -11,6 +11,7 @@ function downloadFile(url, options, callback) {
         return;
     }
 
+    // create folder download.
     mkdirSyncRecursive(options.directory);
 
     options = typeof options === 'object' ? options : {}
