@@ -6,7 +6,7 @@
             $stateProvider
                 .state('app.home', {
                     // parent: 'anon',
-                    url: '/?page&redirectUrl',
+                    url: '/',
                     views: {
                         'content@app': {
                             controller: 'Home',
@@ -16,9 +16,9 @@
                             controller: 'HeaderController',
                             templateUrl: 'core/layout/header.tpl.html'
                         },
-                        'footer@app': {
-                            controller: 'FooterController',
-                            templateUrl: 'core/layout/footer.tpl.html'
+                        'sideBarRight@app.home': {
+                            controller: 'SideBarRightController',
+                            templateUrl: 'core/layout/sideBarRight.tpl.html'
                         }
                     },
                     resolve: {

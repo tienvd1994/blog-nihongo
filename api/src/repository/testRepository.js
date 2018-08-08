@@ -4,6 +4,7 @@ const Test = require('../models/test');
 const Q = require('q');
 const errors = require('restify-errors');
 const log = require('../../logger').log;
+const ObjectId = require('mongoose').Types.ObjectId;
 
 /**
  * 
@@ -119,67 +120,21 @@ function creates(data) {
     });
 }
 
-// function creates(list) {
-//     list.forEach(function (data) {
-//         Question.findOne({ friendlyName: data.friendlyName }, function (error, result) {
-//             if (error) {
-//                 console.log(error);
-//             } else {
-//                 console.log(result);
+function findByCategory(category) {
+    const deferred = Q.defer();
 
-//                 if (!result) {
-//                     let questionData = {
-//                         title: data.title,
-//                         friendlyName: data.friendlyName,
-//                         category: data.category,
-//                         type: data.type
-//                     }
+    Test.findOne({ category: ObjectId(ObjectId) }, function (err, result) {
+        if (err) {
+            log.error(err);
+            console.log(err);
+            deferred.reject(new errors.InvalidContentError(err.message))
+        } else {
+            deferred.resolve(result);
+        }
+    });
 
-//                     let question = new Question(questionData);
-//                     question.save(function (err, question) {
-//                         if (err) {
-//                             console.log(err);
-//                         } else {
-//                             console.log("created question");
-
-//                             let answerData = {
-//                                 question: question._id,
-//                                 media: data.media,
-//                                 image: data.image
-//                             }
-
-//                             AnswerRepository.save(answerData)
-//                                 .then(function (answer) {
-//                                     console.log("created amswer");
-//                                 })
-//                                 .catch(function (error) {
-//                                     // console.log(error);
-//                                 })
-//                                 .done();
-//                         }
-
-//                     });
-//                 }
-//                 // else {
-//                 //     let answerData = {
-//                 //         question: result._id,
-//                 //         media: data.media,
-//                 //         image: data.image
-//                 //     }
-
-//                 //     AnswerRepository.save(answerData)
-//                 //         .then(function (answer) {
-//                 //             console.log("create answer");
-//                 //         })
-//                 //         .catch(function (error) {
-//                 //             console.log(error);
-//                 //         })
-//                 //         .done();
-//                 // }
-//             }
-//         });
-//     });
-// }
+    return deferred.promise;
+}
 
 module.exports = {
     findById: findById,
@@ -187,5 +142,6 @@ module.exports = {
     save: save,
     update: update,
     findByFriendlyName: findByFriendlyName,
-    creates: creates
+    creates: creates,
+    findByCategory: findByCategory
 };
