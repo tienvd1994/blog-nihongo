@@ -1,7 +1,7 @@
 {
-  "name": "elearning-rest-api",
+  "name": "blog-nihongo-rest-api",
   "version": "1.0.0",
-  "description": "Rest API for ATI Elearning Project",
+  "description": "Rest API for Blog Nihongo",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -10,18 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/ati-elearning/rest-api.git"
+    "url": ""
   },
   "keywords": [
     "rest",
     "api"
   ],
-  "author": "Giang Coffee <giang.fet.hut@gmail.com> (http://ask2code.com/)",
+  "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/ati-elearning/rest-api/issues"
+    "url": ""
   },
-  "homepage": "https://gitlab.com/ati-elearning/rest-api#README",
+  "homepage": "",
   "dependencies": {
     "bunyan": "^1.8.12",
     "jsonwebtoken": "^8.2.0",

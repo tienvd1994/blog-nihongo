@@ -39,8 +39,8 @@ function accessWebsite(pageToVisit) {
                     let cateName = (text.trim().replace(/\s/g, "_")).toLocaleLowerCase();
 
                     categoryRepository.save({
-                        "name": cateName,
-                        "friendlyName": commonService.getUrlFriendlyString(cateName)
+                        "name": text,
+                        "friendlyName": commonService.getUrlFriendlyString(text)
 
                     })
                         .then(function (rs) {

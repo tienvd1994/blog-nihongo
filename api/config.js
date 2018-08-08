@@ -28,9 +28,8 @@ module.exports = {
         hash_algorithm: 'RS256'
     },
     public_url: [
-        '/api/v1/questions',
-        '/api/v1/categories',
-        '/api/v1/questions/createOrUpdate'
+        '/api/v1/tests',
+        '/api/v1/categories'
     ],
     non_json_route: [
         '/api/v1/uploadFiles',
