@@ -36,16 +36,18 @@ function findById(id) {
 function getList(params) {
     const deferred = Q.defer();
 
-    Category.apiQuery(params, function (error, logs) {
-        if (error) {
-            log.error(error);
-            deferred.reject(
-                new errors.InvalidContentError(error.message)
-            );
-        } else {
-            deferred.resolve(logs);
-        }
-    });
+    Category.find(params)
+        .sort({ "orderNo": 1 })
+        .exec(function (error, categories) {
+            if (error) {
+                log.error(error);
+                deferred.reject(
+                    new errors.InvalidContentError(error.message)
+                );
+            } else {
+                deferred.resolve(categories);
+            }
+        });
 
     return deferred.promise;
 }

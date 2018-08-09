@@ -1,19 +1,19 @@
 angular.module('ati', [
     'ati.core',
     'ati.home',
-    'ati.detail',
     'ati.about',
     'ati.contact',
+    'ati.detail',
     'ati.category',
     'ati.components',
     'ati.errorPage'
 ])
-    // .config(function (FacebookProvider) {
-    //     // Set your appId through the setAppId method or
-    //     // use the shortcut in the initialize method directly.
-    // })
     .constant('_', window._)
+    .constant('APP_EVENTS', {
+        page: 1,
+        per_page: 15
+    })
     .run(function ($rootScope) {
         $rootScope._ = window._;
     })
-;
+    ;

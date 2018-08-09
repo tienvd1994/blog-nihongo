@@ -1,5 +1,5 @@
 (function () {
     'use strict';
 
-    angular.module('ati.category', []);
+    angular.module('ati.category', ['ui.bootstrap']);
 })();

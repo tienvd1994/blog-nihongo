@@ -18,7 +18,8 @@
     "angular-deferred-bootstrap": "~0.1.5",
     "restangular": "~1.4.0",
     "angular-underscore-module": "~1.0.1",
-    "bootstrap": "^4.0.0"
+    "bootstrap": "^4.0.0",
+    "angular-bootstrap": "~2.5.0"
   },
   "resolutions": {
     "angular": "1.6.9",

@@ -9,7 +9,7 @@ module.exports = {
     // base_url: process.env.BASE_URL || 'http://api.elearning.dev:3000',
     pagination: {
         page: 1,
-        limit: 12
+        limit: 15
     },
     db: {
         uri: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/blog-nihongo',

@@ -16,7 +16,7 @@
                                 <i class="mdi mdi-calendar"></i> {{test.createdAt | date: 'dd/MM/yyyy'}}</li>
                             <li>
                                 <i class="mdi mdi-tag-text-outline"></i>
-                                <a ui-sref="app.category({friendlyName: category.friendlyName})">{{test.category.friendlyName}}</a>
+                                <a ui-sref="app.category({friendlyName: test.category.friendlyName})">{{test.category.friendlyName}}</a>
                             </li>
                         </ul>
                     </div>
@@ -32,18 +32,18 @@
                             </p>
                             <p ng-if="question.answers && question.answers.length > 0">
                                 <span ng-repeat="answer in question.answers">
-                                    <input type="radio" value="{{$index + 1}}"> {{answer.content}}
+                                    <input type="radio" name="answer" value="{{$index + 1}}"> {{answer.content}}
                                     <br />
                                 </span>
                             </p>
                             <p ng-if="question.answers.length === 0">
-                                <input type="radio" value="1"> 1
+                                <input type="radio" name="answer" value="1"> 1
                                 <br />
-                                <input type="radio" value="2"> 2
-                                <br />
-                                <input type="radio" value="3"> 3
-                                <br />
-                                <input type="radio" value="4"> 4
+                                <input type="radio" name="answer" value="2"> 2
+                                <br /> 
+                                <input type="radio" name="answer" value="3"> 3
+                                <br /> 
+                                <input type="radio" name="answer" value="4"> 4
                             </p>
                         </div>
                     </div>

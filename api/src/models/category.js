@@ -17,6 +17,9 @@ const CategorySchema = new mongoose.Schema(
         },
         totalTest: {
             type: Number
+        },
+        orderNo: {
+            type: Number
         }
     },
     { minimize: false }
