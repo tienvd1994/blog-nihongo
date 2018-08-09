@@ -1,28 +1,6 @@
-<section>
+<section class="pb-5">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="page-title">
-                    <div class="row">
-                        <div class="col-md-9 col-xs-12">
-                            <h2>
-                                <span>News and Stories</span>
-                            </h2>
-
-                            <p class="subtitle text-muted">Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem
-                                nibh id elit. Proin gravida nibh vel velit auctor Aenean sollicitudin, adipisicing elit sed
-                                lorem quis bibendum auctor.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="mt-5 pb-5">
-    <div class="container">
-        <div class="row">
+        <div class="row pt-5">
             <!-- Content-->
             <div class="col-xl-8">
                 <!-- Post-->
@@ -54,9 +32,9 @@
                 <!-- Pagination-->
                 <div class="row">
                     <div class="col-lg-12">
-                        <ul uib-pagination boundary-links="true" total-items="pagination.totalItems" ng-model="pagination.currentPage" ng-change="pageChanged()"
-                            class="pagination" force-ellipses="true" max-size="pagination.maxSize" previous-text="&lsaquo;" next-text="&rsaquo;"
-                            first-text="&laquo;" last-text="&raquo;"></ul>
+                        <ul uib-pagination boundary-links="true" total-items="pagination.totalItems" ng-model="pagination.page" ng-change="pageChanged()"
+                            class="pagination" force-ellipses="true" items-per-page="pagination.per_page" max-size="pagination.maxSize"
+                            previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
                     </div>
                 </div>
                 <!-- Pagination end-->

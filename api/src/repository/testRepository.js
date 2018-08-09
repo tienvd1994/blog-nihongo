@@ -22,18 +22,28 @@ function findById(id) {
         condition = { friendlyName: id };
     }
 
-    Test.findOne(condition, function (err, actionLog) {
-        if (err) {
-            log.error(err);
-            deferred.reject(new errors.InvalidContentError(err.message))
-        } else if (!actionLog) {
-            deferred.reject(new errors.ResourceNotFoundError(
-                'The resource you requested could not be found.'
-            ));
-        } else {
-            deferred.resolve(actionLog)
-        }
-    });
+    Test.aggregate([
+        { $match: condition },
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category.id",
+                foreignField: "_id",
+                as: "categories"
+            }
+        },
+        { $unwind: "$categories" },
+        { $addFields: { "category.name": "$categories.name" } },
+        { $project: { _id: 1, title: 1, friendlyName: 1, category: 1, questions: 1, transcript: 1, createdAt: 1 } }
+    ])
+        .exec(function (err, test) {
+            if (err) {
+                log.error(err);
+                deferred.reject(new errors.InvalidContentError(err.message))
+            } else {
+                deferred.resolve(test)
+            }
+        });
 
     return deferred.promise;
 }
@@ -72,9 +82,7 @@ function save(data) {
     question.save(function (err, question) {
         if (err) {
             log.error(err);
-            // deferred.reject(
-            //     new errors.InvalidContentError(err.message)
-            // );
+            deferred.reject(new errors.InvalidContentError(err.message));
         } else {
             deferred.resolve(question);
         }
@@ -128,8 +136,9 @@ function creates(data) {
     });
 }
 
-function findByCategory(category) {
+function findByCategory(category, page, per_page) {
     const deferred = Q.defer();
+    let offset = (page - 1) * per_page;
 
     Test.aggregate([
         { "$match": { "category.friendlyName": category } },
@@ -150,7 +159,9 @@ function findByCategory(category) {
                 createdAt: 1,
                 categoryName: "$categories.name"
             }
-        }
+        },
+        { $skip: offset },
+        { $limit: per_page }
     ])
         .exec(function (err, result) {
             if (err) {
@@ -158,7 +169,19 @@ function findByCategory(category) {
                 console.log(err);
                 deferred.reject(new errors.InvalidContentError(err.message))
             } else {
-                deferred.resolve(result);
+                Test.count({ "category.friendlyName": category }, function (error, total) {
+                    if (err) {
+                        log.error(err);
+                        console.log(err);
+                        deferred.reject(new errors.InvalidContentError(err.message))
+                    }
+                    else {
+                        deferred.resolve({
+                            items: result,
+                            totalItems: total
+                        });
+                    }
+                })
             }
         });
 

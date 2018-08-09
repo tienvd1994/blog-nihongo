@@ -22,9 +22,6 @@
                         }
                     },
                     resolve: {
-                        tests: function ($stateParams, CategoryManager) {
-                            return CategoryManager.one($stateParams.friendlyName).one("tests").getList();
-                        }
                     },
                     data: {
                         allowAnonymous: true

@@ -30,8 +30,8 @@ function list(req, res, next) {
 
 function one(req, res, next) {
     TestRepository.findById(req.params.id)
-        .then(function (log) {
-            res.send(log);
+        .then(function (test) {
+            res.send(test[0]);
             next();
         })
         .catch(function (error) {
@@ -76,9 +76,12 @@ function update(req, res, next) {
 }
 
 function getByCategory(req, res, next) {
-    TestRepository.findByCategory(req.params.category_friendlyName)
+    let page = parseInt(req.params.page);
+    let per_page = parseInt(req.params.per_page);
+
+    TestRepository.findByCategory(req.params.category_friendlyName, page, per_page)
         .then(function (result) {
-            res.send(result);
+            res.send([result]);
             next();
         })
         .catch(function (error) {
