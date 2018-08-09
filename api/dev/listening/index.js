@@ -1,22 +1,21 @@
-const mongoose = require('mongoose');
-const config = require('../../config');
 const request = require('request');
 const cheerio = require('cheerio');
-const URL = require('url-parse');
 const commonService = require('./../services/commonService');
 const _ = require('lodash');
 const testRepository = require('./../../src/repository/testRepository');
 const categoryRepository = require('./../../src/repository/categoryRepository');
+// const mongoose = require('mongoose');
+// const config = require('../../config');
 
-// establish connection to mongodb
-mongoose.Promise = global.Promise;
-mongoose.connect(config.db.uri, { auth: config.db.auth });
-const db = mongoose.connection;
+// // establish connection to mongodb
+// mongoose.Promise = global.Promise;
+// mongoose.connect(config.db.uri, { auth: config.db.auth });
+// const db = mongoose.connection;
 
-db.on('error', (err) => {
-    console.error(err);
-    process.exit(1);
-});
+// db.on('error', (err) => {
+//     console.error(err);
+//     process.exit(1);
+// });
 
 function accessWebsite(pageToVisit) {
     request(pageToVisit, function (error, response, body) {

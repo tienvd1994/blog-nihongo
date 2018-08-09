@@ -1,4 +1,18 @@
 const listening = require('./listening');
+const grammar = require('./grammar');
+
+const mongoose = require('mongoose');
+const config = require('../config');
+
+// establish connection to mongodb
+mongoose.Promise = global.Promise;
+mongoose.connect(config.db.uri, { auth: config.db.auth });
+const db = mongoose.connection;
+
+db.on('error', (err) => {
+    console.error(err);
+    process.exit(1);
+});
 
 let pageToVisit = "http://japanesetest4you.com/";
 let listeningUrl = "https://japanesetest4you.com/category/jlpt-n2/jlpt-n2-listening-test/"
@@ -7,4 +21,4 @@ let categoryId = "5b655105864688410888de37";
 
 // listening.getDataListeningTest(listeningUrl, "xxxx", categoryId);
 // listening.accessDetailOfListeningTest(listeningDetailUrl, "Category", "SubCategory", categoryId, "questionName");
-listening.accessWebsite(pageToVisit);
+grammar.accessWebsite(pageToVisit);
