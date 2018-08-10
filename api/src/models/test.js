@@ -31,6 +31,9 @@ const TestSchema = new mongoose.Schema(
         transcript: {
             type: String
         },
+        description: {
+            type: String
+        }
     },
     { minimize: false }
 );

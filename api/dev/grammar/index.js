@@ -111,6 +111,7 @@ function accessDetailOfListeningTest(url, categoryName, testNameFormat, category
         let $ = cheerio.load(body);
         let formListening = $("#content .entry form");
         let questions = [];
+        let description = "";
         let dir = './files/' + categoryName + "/" + testNameFormat;
 
         formListening.find('p').each(function (index, element) {
@@ -123,13 +124,28 @@ function accessDetailOfListeningTest(url, categoryName, testNameFormat, category
                 if (array && array.length > 0) {
                     let array0 = array[0];
 
-                    if (array0 === "Advertisement") {
-                        console.log("ads");
+                    if (array.length == 1) {
+                        if (array0 === "Advertisement") {
+                            console.log("ads");
+                        }
+                        else {
+                            description = array0;
+                        }
                     }
                     else {
+                        let answerArray = array.slice(1, array.length);
+                        let tmps = [];
+
+                        _.each(answerArray, function (item) {
+                            tmps.push({
+                                content: item,
+                                isCorrect: false
+                            });
+                        });
+
                         question = {
-                            content: array[0],
-                            answers: array.slice(1, array.length)
+                            content: array0,
+                            answers: tmps
                         }
 
                         questions.push(question);
@@ -165,7 +181,8 @@ function accessDetailOfListeningTest(url, categoryName, testNameFormat, category
             },
             "type": 2,
             "questions": questions,
-            "transcript": transcriptUrl
+            "transcript": transcriptUrl,
+            "description": description
         }
 
         testRepository.creates(test);

@@ -30,6 +30,9 @@
                             <p ng-if="question.image">
                                 <img ng-src="http://localhost:3000/{{question.image}}">
                             </p>
+                            <p ng-if="question.content">
+                                {{question.content}}
+                            </p>
                             <p ng-if="question.answers && question.answers.length > 0">
                                 <span ng-repeat="answer in question.answers">
                                     <input type="radio" name="answer" value="{{$index + 1}}"> {{answer.content}}

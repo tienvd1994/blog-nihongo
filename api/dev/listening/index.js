@@ -121,7 +121,7 @@ function accessDetailOfListeningTest(url, categoryName, subCate, categoryId, tes
             return;
         }
 
-        // console.log(testName);
+        console.log(testName);
         let $ = cheerio.load(body);
         let formListening = $("#content .entry form");
 
