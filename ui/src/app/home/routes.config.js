@@ -9,7 +9,7 @@
                     url: '/',
                     views: {
                         'content@app': {
-                            controller: 'Home',
+                            controller: 'HomeController',
                             templateUrl: 'home/home.tpl.html'
                         },
                         'header@app': {

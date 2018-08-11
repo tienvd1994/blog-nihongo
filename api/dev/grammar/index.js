@@ -5,7 +5,7 @@ const _ = require('lodash');
 const testRepository = require('./../../src/repository/testRepository');
 const categoryRepository = require('./../../src/repository/categoryRepository');
 
-function accessWebsite(pageToVisit) {
+function accessWebsite(pageToVisit, category) {
     request(pageToVisit, function (error, response, body) {
         if (error) {
             console.log("Error: " + error);
@@ -22,12 +22,20 @@ function accessWebsite(pageToVisit) {
                 let text = $element.text();
                 let url = $element.attr("href");
 
-                if (text.indexOf("grammar test") !== -1) {
+                if (text.indexOf(category) !== -1) {
                     let cateName = (text.trim().replace(/\s/g, "_")).toLocaleLowerCase();
+                    let group = "";
+
+                    _.each(['N1', 'N2', 'N3', 'N4', 'N5'], function (item) {
+                        if (text.indexOf(item) > -1) {
+                            group = item;
+                        }
+                    });
 
                     categoryRepository.save({
                         "name": text,
-                        "friendlyName": commonService.getUrlFriendlyString(text)
+                        "friendlyName": commonService.getUrlFriendlyString(text),
+                        "group": group
 
                     })
                         .then(function (rs) {

@@ -1,12 +1,17 @@
-<div class="error__container">
-    <h1 class="error__greeting">
-        {{'SORRY' | translate}}
-    </h1>
-    <div class="error__body">
-        <h5 class="error__main">
-            {{'CAN_NOT_FIND' | translate}}
-        </h5>
-        <br>
-        <a ui-sref="app.home">{{'BACK_TO_HOME' | translate}}</a>
+<section class="pb-5 h-100vh">
+    <div class="home-center">
+        <div class="home-desc-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center error-page">
+                        <h1>404!</h1>
+                        <h4 class="error-title">Sorry, page not found</h4>
+                        <p class="error-text text-muted mt-3">Use the navigation above or the button below to get back and track.</p>
+                        <a ui-sref="app.home" class="btn btn-outline-custom mt-4">BACK TO HOME PAGE</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+    <!-- end container -->
+</section>

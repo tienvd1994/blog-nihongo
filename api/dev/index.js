@@ -1,4 +1,4 @@
-const listening = require('./listening');
+const grammarlistening = require('./listening');
 const grammar = require('./grammar');
 
 const mongoose = require('mongoose');
@@ -22,4 +22,6 @@ let categoryId = "5b655105864688410888de37";
 // listening.getDataListeningTest(listeningUrl, "xxxx", categoryId);
 // listening.accessDetailOfListeningTest(listeningDetailUrl, "Category", "SubCategory", categoryId, "questionName");
 // grammar.accessWebsite(pageToVisit);
-listening.accessWebsite(pageToVisit);
+// "listening test"
+grammar.accessWebsite(pageToVisit, "vocabulary test");
+// grammar.accessDetailOfListeningTest("https://japanesetest4you.com/japanese-language-proficiency-test-jlpt-n5-vocabulary-exercise-3/", "cateName", "subName", "asdfsd", "testName");

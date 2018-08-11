@@ -53,19 +53,45 @@ function findById(id) {
  * @param params
  * @returns {*|promise}
  */
-function getList(params) {
+function getList(page, per_page) {
     const deferred = Q.defer();
+    let offset = (page - 1) * per_page;
 
-    Test.apiQuery(params, function (error, logs) {
-        if (error) {
-            log.error(error);
-            deferred.reject(
-                new errors.InvalidContentError(error.message)
-            );
-        } else {
-            deferred.resolve(logs);
-        }
-    });
+    Test.aggregate([
+        {
+            $lookup: {
+                from: "categories",
+                localField: "category.id",
+                foreignField: "_id",
+                as: "categories"
+            }
+        },
+        { $unwind: "$categories" },
+        {
+            $project: {
+                _id: 1,
+                title: 1,
+                friendlyName: 1,
+                createdAt: 1,
+                categoryName: "$categories.name"
+            }
+        },
+        { $skip: offset },
+        { $limit: per_page }
+    ])
+        .exec(function (error, tests) {
+            if (error) {
+                log.error(error);
+                deferred.reject(new errors.InvalidContentError(error.message));
+            } else {
+                Test.count({}, function (error, total) {
+                    deferred.resolve({
+                        items: tests,
+                        totalItems: total
+                    });
+                })
+            }
+        });
 
     return deferred.promise;
 }

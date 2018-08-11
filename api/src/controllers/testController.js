@@ -10,9 +10,12 @@ const TestRepository = require('../repository/testRepository');
  */
 
 function list(req, res, next) {
-    TestRepository.getList(req.params)
-        .then(function (logs) {
-            res.send(logs);
+    let page = parseInt(req.params.page);
+    let per_page = parseInt(req.params.per_page);
+
+    TestRepository.getList(page, per_page)
+        .then(function (tests) {
+            res.send([tests]);
             next();
         })
         .catch(function (error) {

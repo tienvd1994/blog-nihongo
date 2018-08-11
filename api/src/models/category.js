@@ -20,6 +20,9 @@ const CategorySchema = new mongoose.Schema(
         },
         orderNo: {
             type: Number
+        },
+        group: {
+            type: Number
         }
     },
     { minimize: false }
