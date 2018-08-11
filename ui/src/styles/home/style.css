@@ -840,3 +840,17 @@ textarea.form-control {
         padding: 20px 20px;
     }
 }
+
+.mb0{
+    margin-bottom: 0px !important;
+}
+
+.fix-sidebar-right{
+    position: fixed;
+    right: 0px;
+}
+
+.fix-sidebar-left{
+    position: fixed;
+    /* left: 0px; */
+}
