@@ -20,7 +20,7 @@ module.exports = {
         //     password: "Elearning@2018"
         // }
     },
-    cors: ['http://localhost:9001', 'http://localhost:3000', 'http://localhost:9002'],
+    cors: ['http://localhost:9001', 'http://localhost:3000', 'http://localhost:9002', 'http://127.0.0.1:81'],
     jwt: {
         public_key: 'var/jwt/public.pem',
         private_key: 'var/jwt/private.pem',
