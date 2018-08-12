@@ -13,3 +13,4 @@
 /api/logs
 /api/package-lock.json
 api/config.js
+api/dev/key-file.json
